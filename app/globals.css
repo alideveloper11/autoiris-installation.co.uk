@@ -1036,6 +1036,74 @@ h3 {
   background: var(--primary-dark);
 }
 
+.lightbox-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+}
+
+.lightbox-figure img {
+  max-height: 78vh;
+}
+
+.lightbox-figure figcaption {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  margin-top: 14px;
+  color: var(--white);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.lightbox-figure figcaption span {
+  color: var(--primary);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 52px;
+  height: 52px;
+  transform: translateY(-50%);
+  background: var(--primary);
+  color: var(--white);
+  font-size: 2.4rem;
+  line-height: 1;
+  transition: var(--transition);
+}
+
+.lightbox-nav:hover {
+  background: var(--primary-dark);
+}
+
+.lightbox-nav.prev {
+  left: 16px;
+}
+
+.lightbox-nav.next {
+  right: 16px;
+}
+
+@media (max-width: 599px) {
+  .lightbox-nav {
+    top: auto;
+    bottom: 20px;
+    transform: none;
+  }
+}
+
+.gallery-footer {
+  margin-top: 36px;
+  text-align: center;
+}
+
 /* ============================================================
    REVIEWS
    ============================================================ */
@@ -1136,6 +1204,32 @@ h3 {
 .reviews-footer p {
   color: var(--muted);
   margin-bottom: 18px;
+}
+
+/* Review highlights reuse the contact card styling */
+.review-highlights {
+  margin-bottom: 0;
+}
+
+.review-highlights blockquote {
+  color: var(--ink);
+  font-size: 0.97rem;
+  font-style: italic;
+  flex: 1;
+}
+
+.review-highlights cite {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--secondary);
+}
+
+.review-highlights cite::before {
+  content: "— ";
+  color: var(--primary);
 }
 
 /* ============================================================
@@ -1368,25 +1462,6 @@ h3 {
   gap: 14px;
   text-align: center;
   font-size: 0.85rem;
-}
-
-.footer-bottom .yell {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--primary);
-  color: var(--white);
-  font-weight: 700;
-  padding: 10px 18px;
-  text-transform: uppercase;
-  font-size: 0.82rem;
-  letter-spacing: 0.06em;
-  transition: var(--transition);
-}
-
-.footer-bottom .yell:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
 }
 
 /* ============================================================

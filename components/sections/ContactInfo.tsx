@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Fragment } from "react";
 import { Icon, PhoneSolidIcon, StarIcon } from "@/components/icons";
 import { infoRows } from "@/data/contact";
@@ -33,9 +34,7 @@ export default function ContactInfo() {
           </strong>
           <p>
             See what our customers say on our{" "}
-            <a href={site.yell} target="_blank" rel="noopener">
-              Yell page
-            </a>
+            <Link href="/reviews">reviews page</Link>
             .
           </p>
         </div>

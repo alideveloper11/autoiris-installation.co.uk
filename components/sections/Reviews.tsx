@@ -1,12 +1,14 @@
+import Link from "next/link";
 import { Stars } from "@/components/icons";
 import { rating, reviews as allReviews, type Review } from "@/data/reviews";
-import { site } from "@/data/site";
 
 type ReviewsProps = {
   items?: Review[];
+  /** The "Read More Reviews" link below the grid; hidden on the reviews page itself. */
+  showMoreLink?: boolean;
 };
 
-export default function Reviews({ items = allReviews }: ReviewsProps) {
+export default function Reviews({ items = allReviews, showMoreLink = true }: ReviewsProps) {
   return (
     <section className="section reviews" id="reviews">
       <div className="container">
@@ -39,12 +41,14 @@ export default function Reviews({ items = allReviews }: ReviewsProps) {
           ))}
         </div>
 
-        <div className="reviews-footer reveal">
-          <p>See all {rating.count} reviews and our business rating on Yell.</p>
-          <a href={site.yell} target="_blank" rel="noopener" className="btn btn-dark">
-            Read All Reviews on Yell
-          </a>
-        </div>
+        {showMoreLink && (
+          <div className="reviews-footer reveal">
+            <p>See why {rating.count} customers rate us five stars.</p>
+            <Link href="/reviews" className="btn btn-dark">
+              Read More Reviews
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

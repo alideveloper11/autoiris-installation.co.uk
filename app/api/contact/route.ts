@@ -6,9 +6,11 @@ import { site } from "@/data/site";
  * Contact form handler — the Next.js replacement for the old send-email.php.
  * Keeps the same JSON contract ({ ok, message }) the form has always consumed.
  *
- * Sending needs SMTP credentials in the environment (see .env.example). Without
- * them this responds with an error, which makes the form fall back to opening
- * the visitor's mail app — exactly what the PHP version did when mail() failed.
+ * Each enquiry is delivered to two channels at once:
+ *   - Email, via SMTP (SMTP_* variables)
+ *   - WhatsApp, via CallMeBot (CALLMEBOT_* variables)
+ * See .env.example. The visitor sees success if at least one channel delivered;
+ * if neither is configured or both fail, they are asked to call or email instead.
  */
 
 const MAX_LENGTHS = {
@@ -49,6 +51,22 @@ function transporter() {
   });
 }
 
+/** Sends a WhatsApp message to the business number through the CallMeBot API. */
+async function sendWhatsApp(text: string) {
+  const { CALLMEBOT_APIKEY, CALLMEBOT_PHONE } = process.env;
+  if (!CALLMEBOT_APIKEY) throw new Error("CallMeBot is not configured");
+
+  const url = new URL("https://api.callmebot.com/whatsapp.php");
+  url.searchParams.set("phone", CALLMEBOT_PHONE ?? site.phoneIntl);
+  url.searchParams.set("text", text);
+  url.searchParams.set("apikey", CALLMEBOT_APIKEY);
+
+  const response = await fetch(url, { signal: AbortSignal.timeout(10_000), cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`CallMeBot responded ${response.status}: ${await response.text()}`);
+  }
+}
+
 export async function POST(request: Request) {
   const form = await request.formData();
 
@@ -81,13 +99,10 @@ export async function POST(request: Request) {
   const failure = NextResponse.json(
     {
       ok: false,
-      message: `We could not send the email at this moment. Please call us on ${site.phoneDisplay} or email ${site.email}.`,
+      message: `We could not send your enquiry at this moment. Please call us on ${site.phoneDisplay} or email ${site.email}.`,
     },
     { status: 500 },
   );
-
-  const mailer = transporter();
-  if (!mailer) return failure;
 
   const to = process.env.CONTACT_TO ?? site.email;
   const body = [
@@ -104,7 +119,22 @@ export async function POST(request: Request) {
     fields.message || "-",
   ].join("\n");
 
-  try {
+  const whatsappText = [
+    `*New website enquiry*`,
+    `*Name:* ${fields.name}`,
+    `*Phone:* ${fields.phone}`,
+    `*Email:* ${fields.email || "Not provided"}`,
+    `*Postcode:* ${fields.postcode || "Not provided"}`,
+    `*Service:* ${fields.service || "General"}`,
+    `*Urgency:* ${fields.urgency || "Not specified"}`,
+    "",
+    // Keep the request URL a sensible length; the email carries the full message.
+    fields.message ? fields.message.slice(0, 1500) : "-",
+  ].join("\n");
+
+  const sendEmail = async () => {
+    const mailer = transporter();
+    if (!mailer) throw new Error("SMTP is not configured");
     await mailer.sendMail({
       to,
       from: `${site.name} <${process.env.SMTP_FROM ?? process.env.SMTP_USER}>`,
@@ -112,9 +142,13 @@ export async function POST(request: Request) {
       subject: `Website Enquiry: ${fields.service || "General"} - ${fields.name}`,
       text: body,
     });
-  } catch {
-    return failure;
-  }
+  };
+
+  const [email, whatsapp] = await Promise.allSettled([sendEmail(), sendWhatsApp(whatsappText)]);
+  if (email.status === "rejected") console.error("[contact] Email failed:", email.reason);
+  if (whatsapp.status === "rejected") console.error("[contact] WhatsApp failed:", whatsapp.reason);
+
+  if (email.status === "rejected" && whatsapp.status === "rejected") return failure;
 
   return NextResponse.json({
     ok: true,
