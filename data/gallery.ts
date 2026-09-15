@@ -80,4 +80,17 @@ export const galleryItems: GalleryItem[] = [
     alt: "Neat and tidy communications installation",
     caption: "Neat & tidy comms setup",
   },
+  {
+    src: "/images/hero-image.jpg",
+    alt: "Pyronix alarm bell box and keypad installed on a residential garage",
+    caption: "Pyronix alarm & keypad install",
+  },
+  {
+    src: "/images/dome-camera.jpeg",
+    alt: "Dome CCTV camera installed on the corner of a brick house",
+    caption: "External dome camera install",
+  },
 ];
+
+/** How many photos the home page shows before linking to the full gallery. */
+export const homeGalleryLimit = 15;

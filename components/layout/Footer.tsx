@@ -83,9 +83,6 @@ export default function Footer() {
             {site.legalName} &bull; Registered in England &amp; Wales &bull; Company No.{" "}
             {site.companyNumber}
           </p>
-          <a className="yell" href={site.yell} target="_blank" rel="noopener">
-            Rate us on Yell
-          </a>
         </div>
       </div>
     </footer>

@@ -46,7 +46,6 @@ export default function StructuredData() {
       },
     ],
     areaServed: site.areaServed,
-    sameAs: [site.yell],
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: rating.value,

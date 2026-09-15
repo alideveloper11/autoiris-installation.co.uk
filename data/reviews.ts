@@ -1,3 +1,5 @@
+import type { IconName } from "@/components/icons";
+
 export type Review = {
   quote: string;
   author: string;
@@ -46,5 +48,40 @@ export const reviews: Review[] = [
       "Daniel is very professional, responsive and has great attention to detail. He laid the cables neatly — you cannot tell they are there. Highly recommend him.",
     author: "Andrew",
     date: "15 Dec 2020",
+  },
+];
+
+export type ReviewHighlight = {
+  icon: IconName;
+  title: string;
+  /** A short excerpt from a real review above, backing up the title. */
+  quote: string;
+  author: string;
+};
+
+export const reviewHighlights: ReviewHighlight[] = [
+  {
+    icon: "thumbsUp",
+    title: "Professional & Friendly",
+    quote: "Daniel was extremely professional. Very polite and friendly.",
+    author: "Ru",
+  },
+  {
+    icon: "checkCircle",
+    title: "Neat, Hidden Cabling",
+    quote: "He laid the cables neatly — you cannot tell they are there.",
+    author: "Andrew",
+  },
+  {
+    icon: "clock",
+    title: "Same-Day Response",
+    quote: "Attended my property the same day.",
+    author: "Iman",
+  },
+  {
+    icon: "shield",
+    title: "Fair, Honest Pricing",
+    quote: "Installation was done quickly and seamlessly at a very reasonable price.",
+    author: "Waleed",
   },
 ];

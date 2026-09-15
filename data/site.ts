@@ -10,7 +10,6 @@ export const site = {
   phoneIntl: "+447523521215",
   whatsapp: "https://wa.me/447523521215",
   email: "info.autoiris@gmail.com",
-  yell: "https://www.yell.com/biz/auto-iris-installations-barking-8549853/",
   address: {
     street: "Flat 508 Jute Court, 58 Abbey Road",
     locality: "Barking",
@@ -62,7 +61,6 @@ export const footerQuickLinks: NavLink[] = [
   { label: "Our Work", href: "/gallery" },
   { label: "Reviews", href: "/reviews" },
   { label: "Get a Quote", href: "/contact" },
-  { label: "Yell Listing", href: site.yell },
 ];
 
 export const openingHours: { day: string; hours: string; open: boolean }[] = [
