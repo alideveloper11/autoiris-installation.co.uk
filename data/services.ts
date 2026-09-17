@@ -1,61 +1,18 @@
-import { site } from "./site";
 import type { IconName } from "@/components/icons";
-import type { WhyPoint } from "./home";
-
-export type Service = {
-  number: string;
-  title: string;
-  description: string;
-  image: string;
-  imageAlt: string;
-  ctaLabel: string;
-  ctaHref: string;
-};
-
-export const services: Service[] = [
-  {
-    number: "01",
-    title: "CCTV Installation",
-    description:
-      "Wired & wireless CCTV systems for homes and businesses, with neat, discreet cabling and remote phone viewing.",
-    image: "/images/domestic-cctv-installation.jpg",
-    imageAlt: "Domestic CCTV camera installation",
-    ctaLabel: "Get a quote",
-    ctaHref: "/contact",
-  },
-  {
-    number: "02",
-    title: "Access Control & Door Entry",
-    description:
-      "Wireless access control, intercom and door entry systems, IP and wired, that lock down and control who enters.",
-    image: "/images/hikvision-keypad-video-intercom.jpeg",
-    imageAlt: "Hikvision keypad video intercom door entry system",
-    ctaLabel: "Get a quote",
-    ctaHref: "/contact",
-  },
-  {
-    number: "03",
-    title: "Intruder Alarms Systems",
-    description:
-      "Pyronix, AX Pro & Yale, wired and wireless, for homes and businesses. Fully certified and fitted to standard.",
-    image: "/images/auto-iris-branded-alarm-keypad.jpeg",
-    imageAlt: "Intruder alarm keypad installed by Auto Iris",
-    ctaLabel: "WhatsApp us",
-    ctaHref: site.whatsapp,
-  },
-];
-
-export const subServiceChips: string[] = [
-  "CCTV Monitoring & Remote Viewing",
-  "Wired & Wireless CCTV",
-  "Surveillance Systems",
-  "Intercom & Door Entry Systems",
-  "Wireless Access Control",
-  "Alarm Maintenance & Repair",
-  "Wired & Wireless Alarms",
-  "Alarm Systems (Pyronix, AX Pro, Yale)",
-  "Home & Business Security",
-];
+import type { CtaBannerProps } from "@/components/sections/CtaBanner";
+import type { EveryAngleProps } from "@/components/sections/EveryAngle";
+import type { FaqsProps } from "@/components/sections/Faqs";
+import type { FullScreenHeroProps } from "@/components/sections/FullScreenHero";
+import type { HowItWorksProps } from "@/components/sections/HowItWorks";
+import type { ReviewsProps } from "@/components/sections/Reviews";
+import type { ServicesIntroProps } from "@/components/sections/ServicesIntro";
+import type { ServicesListProps } from "@/components/sections/ServicesList";
+import type { ServicesQuoteProps } from "@/components/sections/ServicesQuote";
+import type { ServicesTrustProps } from "@/components/sections/ServicesTrust";
+import type { WhyChooseProps } from "@/components/sections/WhyChoose";
+import type { CtaLink } from "@/components/ui/CtaLinks";
+import { reviews as reviewItems } from "./reviews";
+import { site } from "./site";
 
 export type ServiceListItem = {
   number: string;
@@ -66,7 +23,7 @@ export type ServiceListItem = {
   icon: IconName;
 };
 
-/** Full service list shown on the /services page. */
+/** Every service; each gets a /services/[slug] page. */
 export const allServices: ServiceListItem[] = [
   {
     number: "01",
@@ -142,122 +99,224 @@ export const allServices: ServiceListItem[] = [
   },
 ];
 
-/** "Why Choose Auto Iris?" points on the /services page. */
-export const serviceWhyPoints: WhyPoint[] = [
-  {
-    icon: "badgeCheck",
-    title: "Qualified Installers",
-    text: "Professional workmanship on every installation",
-  },
-  {
-    icon: "fastForward",
-    title: "Fast Response Times",
-    text: "Emergency support available 24 hours a day",
-  },
-  {
-    icon: "tools",
-    title: "Quality Equipment",
-    text: "Reliable products selected for long-term performance",
-  },
-  {
-    icon: "users",
-    title: "One Trusted Team",
-    text: "Installation, monitoring and maintenance in one place",
-  },
-];
+export function getService(slug: string): ServiceListItem | undefined {
+  return allServices.find((service) => service.slug === slug);
+}
 
-export type HowStep = { number: string; title: string; text: string };
+/* Services page content. Headings: "[words]" are highlighted, "\n" starts a new line. */
 
-/** "How It Works" steps on the /services page. */
-export const howItWorksSteps: HowStep[] = [
-  {
-    number: "01",
-    title: "Get In Touch",
-    text: "Call, WhatsApp or send us a message and tell us what you need protecting.",
-  },
-  {
-    number: "02",
-    title: "Free Site Survey",
-    text: "We visit your property, assess it and recommend the right system for you.",
-  },
-  {
-    number: "03",
-    title: "Professional Installation",
-    text: "Our certified engineers fit everything neatly, on time and to standard.",
-  },
-  {
-    number: "04",
-    title: "Ongoing Support",
-    text: "We show you how it all works and stay on hand for maintenance and 24/7 callouts.",
-  },
-];
+/** Page title and description for search results and link previews. */
+export const servicesMeta = {
+  title: "CCTV, Alarm & Access Control Services | Auto Iris",
+  description:
+    "CCTV, intruder alarm, access control, door entry, aerial and maintenance services for homes and businesses across London & Essex. Free quotes.",
+  socialTitle: "Security Installation Services in London & Essex",
+  socialDescription:
+    "CCTV installation and monitoring, burglar alarms, access control, door entry and system maintenance from one certified local team.",
+  image: "/images/services-hero.jpg",
+};
 
-export type ServiceStat = { value: string; label: string };
+const callCta: CtaLink = {
+  label: `Call ${site.phoneDisplay}`,
+  href: site.phoneHref,
+  variant: "primary",
+  icon: "phoneSolid",
+};
+const quoteCta: CtaLink = { label: "Request a Quote", href: "/contact", variant: "black" };
+const whatsappCta: CtaLink = {
+  label: "WhatsApp Us",
+  href: site.whatsapp,
+  variant: "whatsapp",
+  icon: "whatsapp",
+};
 
-/** Highlight figures beside "Built For Homes And Businesses" on the /services page. */
-export const serviceStats: ServiceStat[] = [
-  { value: "24/7", label: "Support available" },
-  { value: String(allServices.length), label: "Specialist services" },
-  { value: "1", label: "Trusted team" },
-  { value: "100%", label: "Tested before handover" },
-];
+const hero: FullScreenHeroProps = {
+  eyebrow: "Our Security Services",
+  heading: "Security Installation Services\n[In London & Essex]",
+  text: "CCTV installation and monitoring, intruder alarms, access control, door entry, TV aerials and system maintenance for homes and businesses, all supplied and fitted by one certified local team",
+  image: servicesMeta.image,
+  ctas: [callCta, quoteCta],
+};
 
-export type Faq = { question: string; answer: string };
+const servicesList: ServicesListProps = {
+  className: "services-list-grey",
+  items: allServices,
+  linkLabel: "Learn More",
+};
+
+const everyAngle: EveryAngleProps = {
+  heading: "Every Security Need [Covered]",
+  rows: [
+    [
+      "CCTV Monitoring & Remote Viewing",
+      "Wired & Wireless CCTV",
+      "Intruder Alarms",
+      "Alarm Maintenance & Repair",
+    ],
+    [
+      "Aerial Installation",
+      "Satellite Dish",
+      "Access Control",
+      "Door Entry & Intercom",
+      "Home & Business Security",
+    ],
+  ],
+};
+
+const worriedCta: CtaBannerProps = {
+  className: "cta-banner-flat",
+  heading: "Worried About Your Security?\nLet's Fix That Today.",
+  text: "Get a fast, friendly, no-obligation quote for CCTV, alarms or access control. Emergency callouts available 24 hours a day, 7 days a week.",
+  ctas: [whatsappCta, quoteCta],
+};
+
+const whyChoose: WhyChooseProps = {
+  eyebrow: "Why Choose Us",
+  heading: "Why Choose [Auto Iris] For Your Security?",
+  text: "From the first site survey to ongoing maintenance, our certified engineers make protecting your home or business in London and Essex simple, reliable and stress-free.",
+  items: [
+    {
+      icon: "badgeCheck",
+      title: "Qualified Installers",
+      text: "Hikvision certified and Pyronix trained engineers on every job",
+    },
+    {
+      icon: "fastForward",
+      title: "Fast Response Times",
+      text: "24/7 emergency callouts across London and Essex",
+    },
+    {
+      icon: "tools",
+      title: "Quality Equipment",
+      text: "Trusted brands including Hikvision, Pyronix, AX Pro and Yale",
+    },
+    {
+      icon: "users",
+      title: "One Trusted Team",
+      text: "CCTV, alarms, access control and maintenance from one company",
+    },
+  ],
+};
+
+const howItWorks: HowItWorksProps = {
+  eyebrow: "How It Works",
+  heading: "Your Security System In [Four Simple Steps]",
+  text: "From your first call to long-term aftercare, getting CCTV, an alarm or access control installed with Auto Iris is quick, clear and hassle-free.",
+  steps: [
+    {
+      number: "01",
+      title: "Get A Free Quote",
+      text: "Call, WhatsApp or message us about what you need to protect and get honest advice with a free, no-obligation quote.",
+    },
+    {
+      number: "02",
+      title: "Site Survey",
+      text: "We visit your property, check entry points and blind spots, and recommend the right security system.",
+    },
+    {
+      number: "03",
+      title: "Professional Installation",
+      text: "Our certified engineers fit your system neatly, on time and to standard, then test everything.",
+    },
+    {
+      number: "04",
+      title: "Aftercare & Support",
+      text: "We show you how it all works and stay on hand for servicing, repairs and 24/7 emergency callouts.",
+    },
+  ],
+};
+
+const securitySolutions: ServicesIntroProps = {
+  heading: "Professional Security Solutions For Homes And Businesses",
+  paragraphs: [
+    "Protect your property with professionally installed CCTV, intruder alarms, access control and door entry systems from Auto Iris Installations. We design and fit complete security solutions for homes, offices, retail stores, warehouses, commercial buildings and construction sites across London and Essex.",
+    "From HD CCTV cameras that capture clear footage in changing light to wireless burglar alarms, keyless entry and video intercoms, every system is tailored to your property, installed neatly and backed by a minimum 12-month guarantee.",
+  ],
+};
+
+const secureCta: CtaBannerProps = {
+  className: "cta-banner-outline",
+  heading: "Ready To Feel More [Secure]?",
+  text: "Talk to our team today and get a CCTV, alarm or access control system built around your property.",
+  ctas: [{ ...quoteCta, variant: "primary" }, whatsappCta],
+};
+
+const quote: ServicesQuoteProps = {
+  heading: "Get A CCTV & Security System Quote",
+  lines: [
+    "Need CCTV installation, an intruder alarm, access control, door entry or a complete security system?",
+    "Contact us today to discuss your requirements and arrange a professional security assessment or free installation quote.",
+    "Secure your home or business in London and Essex with the right security solution — contact us today.",
+  ],
+};
+
+const trust: ServicesTrustProps = {
+  eyebrow: "Protection You Can Trust",
+  heading: "Security Systems Built For Homes And Businesses",
+  text: "Every CCTV, alarm and access control system is planned around your property, your people and the way you use your space.",
+  stats: [
+    { value: "24/7", label: "Support available" },
+    { value: String(allServices.length), label: "Specialist services" },
+    { value: "1", label: "Trusted team" },
+    { value: "100%", label: "Tested before handover" },
+  ],
+};
+
+const reviews: ReviewsProps = {
+  className: "reviews-grey",
+  eyebrow: "Customer Reviews",
+  items: reviewItems,
+};
 
 const areaList = `${site.areaServed.slice(0, -1).join(", ")} and ${site.areaServed.at(-1)}`;
 
-/** FAQs on the /services page; also emitted as FAQPage structured data. */
-export const serviceFaqs: Faq[] = [
-  {
-    question: "Do you provide free quotes?",
-    answer:
-      "Yes. All quotes are free and no-obligation. Tell us what you need and we'll recommend the right system and give you a clear price before any work starts.",
-  },
-  {
-    question: "Can you work around my schedule?",
-    answer:
-      "Absolutely. We're open 24 hours Monday to Saturday, so we can book your survey or installation at a time that suits you, including early mornings and evenings.",
-  },
-  {
-    question: "Do you offer emergency callouts?",
-    answer:
-      "Yes. Emergency callouts are available 24 hours a day, 7 days a week. Whether it's a break-in, a faulty alarm or a system that has stopped recording, call us and we'll get to you as quickly as possible.",
-  },
-  {
-    question: "Can I view my CCTV remotely?",
-    answer:
-      "Yes. We set up remote viewing on your phone, tablet or computer, so you can watch live footage and play back recordings from anywhere. We'll show you how it all works before we leave.",
-  },
-  {
-    question: "Do you maintain existing systems?",
-    answer:
-      "Yes. We service, repair and upgrade existing CCTV, intruder alarm, access control and aerial systems, even if we didn't install them originally.",
-  },
-  {
-    question: "Which areas do you cover?",
-    answer: `We're based in Barking and cover ${areaList}, and we regularly travel further across the UK. If you're not sure we cover your area, just get in touch.`,
-  },
-];
-
-/** "Every Angle Covered" pills on the /services page, one array per desktop row. */
-export const serviceTagRows: string[][] = [
-  [
-    "CCTV Monitoring & Remote viewing",
-    "Wired & wireless CCTV",
-    "Intruder Alarms",
-    "Alarm Maintenance & Repair",
+const faqs: FaqsProps = {
+  eyebrow: "Need To Know More?",
+  heading: "Security Services FAQs",
+  items: [
+    {
+      question: "Do you provide free quotes?",
+      answer:
+        "Yes. Every quote for CCTV, intruder alarms, access control or door entry is free and no-obligation. Tell us what you need and we'll recommend the right system with a clear price before any work starts.",
+    },
+    {
+      question: "Can you work around my schedule?",
+      answer:
+        "Yes. We're open 24 hours Monday to Saturday, so surveys and installations can be booked at a time that suits you, including early mornings and evenings.",
+    },
+    {
+      question: "Do you offer emergency callouts?",
+      answer:
+        "Yes. Emergency callouts are available 24 hours a day, 7 days a week across London and Essex, whether it's a break-in, a faulty alarm or CCTV that has stopped recording.",
+    },
+    {
+      question: "Can I view my CCTV remotely?",
+      answer:
+        "Yes. We set up remote viewing on your phone, tablet or computer so you can watch live and recorded CCTV footage from anywhere, and we show you how it works before we leave.",
+    },
+    {
+      question: "Do you maintain existing systems?",
+      answer:
+        "Yes. We service, repair and upgrade existing CCTV, intruder alarm, access control and aerial systems, even if another company installed them.",
+    },
+    {
+      question: "Which areas do you cover?",
+      answer: `We're based in Barking and cover ${areaList}, and we regularly travel further across the UK. If you're not sure we cover your area, just get in touch.`,
+    },
   ],
-  [
-    "Aerial Installation",
-    "Satellite Dish",
-    "Access Control",
-    "Door Entry & Intercom",
-    "Home & Business Security",
-  ],
-];
+};
 
-/** Intro paragraphs shared by the "Professional Security Solutions" and "Local Knowledge" sections. */
-export const securitySolutionsParagraphs: string[] = [
-  "Protect your property with reliable, professionally installed CCTV, Auto Iris cameras, intruder alarms, access control systems, and complete security solutions. We provide high-quality security system installation designed to help homes, offices, retail stores, warehouses, commercial buildings, and other properties stay monitored and protected.",
-  "From Auto Iris CCTV cameras that deliver clear images in changing lighting conditions to advanced surveillance and alarm systems, we provide practical security solutions tailored to your property and requirements.",
-];
+export const servicesContent = {
+  hero,
+  servicesList,
+  everyAngle,
+  worriedCta,
+  whyChoose,
+  howItWorks,
+  securitySolutions,
+  secureCta,
+  quote,
+  trust,
+  reviews,
+  faqs,
+};

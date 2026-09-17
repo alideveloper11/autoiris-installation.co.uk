@@ -36,11 +36,22 @@ export const site = {
   heroImage: "/images/hero-image.jpg",
 } as const;
 
+export type Stat = { count: number; suffix: string; label: string };
+
+/** Headline business figures, shown in the stats strip on several pages. */
+export const stats: Stat[] = [
+  { count: 96, suffix: "", label: "Five-Star Reviews" },
+  { count: 10, suffix: "+", label: "Years Experience" },
+  { count: 24, suffix: "/7", label: "Emergency Service" },
+  { count: 100, suffix: "%", label: "Satisfaction" },
+];
+
 export type NavLink = { label: string; href: string };
 
 export const navLinks: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
+  { label: "Areas", href: "/areas" },
   { label: "Gallery", href: "/gallery" },
   { label: "Reviews", href: "/reviews" },
   { label: "Contact", href: "/contact" },
@@ -73,6 +84,20 @@ export const openingHours: { day: string; hours: string; open: boolean }[] = [
   { day: "Saturday", hours: "24 Hours", open: true },
   { day: "Sunday", hours: "Closed", open: false },
 ];
+
+/** Collapses consecutive days with the same hours into one row, e.g. "Mon - Sat". */
+export function groupOpeningHours(): { days: string; hours: string }[] {
+  const groups: { first: string; last: string; hours: string }[] = [];
+  for (const { day, hours } of openingHours) {
+    const current = groups.at(-1);
+    if (current && current.hours === hours) current.last = day;
+    else groups.push({ first: day, last: day, hours });
+  }
+  return groups.map(({ first, last, hours }) => ({
+    days: first === last ? first : `${first.slice(0, 3)} - ${last.slice(0, 3)}`,
+    hours,
+  }));
+}
 
 export const brands = {
   logo: "/images/auto-iris-logo-wide.jpeg",

@@ -2,72 +2,77 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import FullScreenHero from "@/components/sections/FullScreenHero";
 import Stats from "@/components/sections/Stats";
-import ServiceFeatures from "@/components/sections/ServiceFeatures";
+import ServicesList from "@/components/sections/ServicesList";
 import WhyChoose from "@/components/sections/WhyChoose";
 import ServiceProcess from "@/components/sections/ServiceProcess";
 import CtaBanner from "@/components/sections/CtaBanner";
 import ServicesIntro from "@/components/sections/ServicesIntro";
-import Gallery from "@/components/sections/Gallery";
 import Reviews from "@/components/sections/Reviews";
 import Faqs from "@/components/sections/Faqs";
-import { getServiceDetailContent } from "@/data/serviceDetail";
-import { allServices, getService } from "@/data/services";
+import AreaLocation from "@/components/sections/AreaLocation";
+import { getAreaDetailContent } from "@/data/areaDetail";
+import { getServiceArea, serviceAreas } from "@/data/areas";
 import { site } from "@/data/site";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-/** Only the slugs in data/services.ts exist; anything else 404s. */
+/** Only the areas in data/areas.ts exist; anything else 404s. */
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return allServices.map((service) => ({ slug: service.slug }));
+  return serviceAreas.map((area) => ({ slug: area.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const service = getService(slug);
-  if (!service) return {};
-  const { hero, meta } = getServiceDetailContent(service);
+  const area = getServiceArea(slug);
+  if (!area) return {};
+  const { hero, meta } = getAreaDetailContent(area);
+  const heroImage = hero.image;
+  const { description } = meta;
 
-  const url = `/services/${service.slug}`;
+  const url = `/areas/${area.slug}`;
 
   return {
     title: { absolute: meta.title },
-    description: meta.description,
+    description,
     alternates: { canonical: url },
     openGraph: {
       type: "website",
       siteName: site.name,
       url,
       title: meta.title,
-      description: meta.description,
-      images: [hero.image],
+      description,
+      images: [heroImage],
       locale: "en_GB",
     },
     twitter: {
       card: "summary_large_image",
       title: meta.title,
-      description: meta.description,
-      images: [hero.image],
+      description,
+      images: [heroImage],
     },
   };
 }
 
-export default async function ServiceDetailPage({ params }: Props) {
+export default async function AreaDetailPage({ params }: Props) {
   const { slug } = await params;
-  const service = getService(slug);
-  if (!service) notFound();
-  const content = getServiceDetailContent(service);
+  const area = getServiceArea(slug);
+  if (!area) notFound();
+  const content = getAreaDetailContent(area);
 
-  const serviceSchema = {
+  const place = `${area.name}, ${area.region}`;
+
+  const areaSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: service.title,
+    name: `Security installation in ${place}`,
     description: content.meta.description,
-    url: `${site.url}/services/${service.slug}`,
-    areaServed: site.areaServed,
+    serviceType: "CCTV, intruder alarm and access control installation",
+    url: `${site.url}/areas/${area.slug}`,
+    areaServed: { "@type": "Place", name: place },
     provider: { "@type": "LocalBusiness", "@id": `${site.url}/`, name: site.name },
   };
 
@@ -75,14 +80,14 @@ export default async function ServiceDetailPage({ params }: Props) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(areaSchema) }}
       />
 
       <FullScreenHero {...content.hero} />
 
       <Stats {...content.stats} />
 
-      <ServiceFeatures {...content.features} />
+      <ServicesList {...content.services} />
 
       <WhyChoose {...content.propertyTypes} />
 
@@ -90,15 +95,15 @@ export default async function ServiceDetailPage({ params }: Props) {
 
       <CtaBanner {...content.secureCta} />
 
-      <WhyChoose {...content.whyChoose} />
+      <ServicesIntro {...content.securitySolutions} />
 
-      <ServicesIntro {...content.localKnowledge} />
-
-      <Gallery {...content.gallery} />
+      <CtaBanner {...content.worriedCta} />
 
       <Reviews {...content.reviews} />
 
       <Faqs {...content.faqs} />
+
+      <AreaLocation {...content.location} />
     </>
   );
 }

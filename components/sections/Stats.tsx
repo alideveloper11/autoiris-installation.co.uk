@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { stats } from "@/data/home";
+import type { Stat } from "@/data/site";
 
 const DURATION = 1600;
 
@@ -52,12 +52,14 @@ function Counter({ target, suffix }: { target: number; suffix: string }) {
   );
 }
 
-export default function Stats() {
+export type StatsProps = { items: Stat[] };
+
+export default function Stats({ items }: StatsProps) {
   return (
     <section className="stats">
       <div className="container">
         <div className="stats-grid">
-          {stats.map((stat) => (
+          {items.map((stat) => (
             <div className="stat" key={stat.label}>
               <Counter target={stat.count} suffix={stat.suffix} />
               <span className="label">{stat.label}</span>

@@ -1,12 +1,12 @@
-import { mapEmbedSrc } from "@/data/contact";
+export type MapEmbedProps = { src: string; title: string };
 
-export default function MapEmbed() {
+export default function MapEmbed({ src, title }: MapEmbedProps) {
   return (
     <section className="map-wrap">
       <iframe
         className="map-embed"
-        title="Auto Iris Installations location map"
-        src={mapEmbedSrc}
+        title={title}
+        src={src}
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
         allowFullScreen

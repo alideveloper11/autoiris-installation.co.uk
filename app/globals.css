@@ -333,6 +333,12 @@ h3 {
   color: var(--primary);
 }
 
+.logo-text strong,
+.logo-text small,
+.header-phone span {
+  white-space: nowrap;
+}
+
 .logo-text small {
   font-size: 0.80rem;
   font-weight: 600;
@@ -344,14 +350,14 @@ h3 {
 .nav {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 2px;
 }
 
 .nav a {
   font-weight: 600;
   font-size: 0.95rem;
   color: var(--secondary);
-  padding: 8px 14px;
+  padding: 8px 12px;
   position: relative;
   transition: color var(--transition);
 }
@@ -359,8 +365,8 @@ h3 {
 .nav a::after {
   content: "";
   position: absolute;
-  left: 14px;
-  right: 14px;
+  left: 12px;
+  right: 12px;
   bottom: 2px;
   height: 3px;
   background: var(--primary);
@@ -960,6 +966,19 @@ h3 {
   height: 18px;
   color: var(--primary);
   flex: none;
+}
+
+.coverage-places li.has-link {
+  padding: 0;
+}
+
+.coverage-place-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 18px;
+  color: inherit;
 }
 
 .coverage-places li:hover {
@@ -1675,6 +1694,26 @@ h3 {
   margin-top: 44px;
 }
 
+/* Left-aligned variant (areas page) */
+.services-hero-left {
+  text-align: left;
+}
+
+.services-hero-left .services-hero-content {
+  max-width: 940px;
+  margin: 0;
+}
+
+.services-hero-left p {
+  max-width: 42em;
+  margin: 0;
+}
+
+.services-hero-left .services-hero-ctas,
+.services-hero-left .services-hero-trust {
+  justify-content: flex-start;
+}
+
 .services-hero-trust {
   list-style: none;
   display: flex;
@@ -1709,6 +1748,10 @@ h3 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 30px;
+}
+
+.services-list-grey {
+  background: #e3e3e3;
 }
 
 .service-tile {
@@ -1871,81 +1914,6 @@ h3 {
 }
 
 /* ============================================================
-   SERVICE QUOTE FORM (service detail pages)
-   ============================================================ */
-
-.service-quote {
-  background: #e4e4e4;
-}
-
-.service-quote-card {
-  padding: clamp(24px, 4vw, 30px) clamp(20px, 4vw, 28px) clamp(24px, 4vw, 30px);
-  background: var(--white);
-  border-radius: 14px;
-}
-
-.service-quote-card h2 {
-  color: var(--dark);
-  font-size: clamp(1.35rem, 3vw, 1.9rem);
-  margin-bottom: clamp(1.5rem, 4vw, 2.25rem);
-}
-
-.service-quote-card .form-success {
-  margin-bottom: 26px;
-}
-
-.service-quote-field {
-  margin-bottom: clamp(1.25rem, 3vw, 2rem);
-}
-
-.service-quote-field label {
-  display: block;
-  margin-bottom: 12px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--dark);
-}
-
-.service-quote-field input,
-.service-quote-field textarea {
-  display: block;
-  width: 100%;
-  height: 46px;
-  padding: 10px 14px;
-  border: 1px solid #dcdcde;
-  background: var(--white);
-  font-family: inherit;
-  font-size: 1rem;
-  color: var(--ink);
-  transition: border-color var(--transition);
-}
-
-.service-quote-field textarea {
-  height: 80px;
-  min-height: 80px;
-  resize: vertical;
-}
-
-.service-quote-field input:focus,
-.service-quote-field textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-.service-quote-submit {
-  width: 100%;
-  padding: 16px 20px;
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-}
-
-.service-quote-submit:disabled {
-  opacity: 0.7;
-  cursor: wait;
-  transform: none;
-}
-
-/* ============================================================
    WHY CHOOSE (services page)
    ============================================================ */
 
@@ -2007,6 +1975,11 @@ h3 {
   font-size: 0.8rem;
   line-height: 2;
   max-width: 26ch;
+}
+
+/* Grey background only; cards keep their default style */
+.why-choose-shaded {
+  background: #e3e3e3;
 }
 
 /* Grey variant (about page): borderless white cards, larger text */
@@ -2188,11 +2161,288 @@ h3 {
 }
 
 /* ============================================================
+   AREAS: HIGHLIGHTS STRIP
+   ============================================================ */
+
+.areas-highlights {
+  background: var(--dark);
+  padding: clamp(2rem, 4vw, 3.6rem) 0;
+}
+
+.areas-highlights-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px clamp(28px, 4.6vw, 88px);
+}
+
+.areas-highlights-list li {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  line-height: 1.3;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--white);
+}
+
+/* ============================================================
+   AREAS: AREAS WE SERVE GRID
+   ============================================================ */
+
+.areas-grid-section {
+  background: #e4e4e4;
+}
+
+.areas-grid-head {
+  margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  text-align: center;
+}
+
+.areas-grid-head .eyebrow-plain {
+  margin-bottom: 8px;
+}
+
+.areas-grid-section h2 {
+  color: var(--dark);
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  margin-bottom: 14px;
+}
+
+.areas-grid-head p {
+  color: var(--dark);
+  font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+}
+
+.areas-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.area-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  padding: 18px 18px 22px;
+  background: var(--white);
+  transition: var(--transition);
+}
+
+.area-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.area-card svg {
+  width: 22px;
+  height: 22px;
+  color: var(--primary);
+  margin-bottom: 26px;
+}
+
+.area-card h3 {
+  color: var(--dark);
+  font-size: 1.15rem;
+  margin-bottom: 4px;
+}
+
+.area-card p {
+  color: var(--dark);
+  font-size: 1rem;
+}
+
+.area-card a {
+  margin-top: auto;
+  padding-top: 24px;
+  align-self: flex-start;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.area-card a span {
+  display: inline-block;
+  transition: transform var(--transition);
+}
+
+.area-card:hover a span {
+  transform: translateX(4px);
+}
+
+/* ============================================================
+   AREA LOCATION: MAP + OTHER AREAS (area detail pages)
+   ============================================================ */
+
+.area-location {
+  background: var(--off-white);
+}
+
+.area-location-head {
+  max-width: 1040px;
+  margin: 0 auto clamp(2rem, 5vw, 3rem);
+  text-align: center;
+}
+
+.area-location-head .eyebrow-plain {
+  margin-bottom: 10px;
+}
+
+.area-location h2 {
+  color: var(--dark);
+  font-size: clamp(1.9rem, 4.5vw, 3rem);
+}
+
+.area-location-head p {
+  color: var(--ink);
+  margin-top: 14px;
+}
+
+.area-location-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.area-location-map,
+.area-location-links {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--primary);
+  box-shadow: var(--shadow);
+}
+
+.area-location-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.area-location h3 {
+  color: var(--dark);
+  font-size: 1.15rem;
+  margin-top: 4px;
+}
+
+.area-location-map-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.area-location-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  background: var(--primary);
+  color: var(--white);
+}
+
+.area-location-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.area-location-map {
+  display: flex;
+  flex-direction: column;
+}
+
+.area-location-map iframe {
+  display: block;
+  flex: 1;
+  width: 100%;
+  min-height: clamp(360px, 45vw, 520px);
+  border: 0;
+}
+
+.area-location-links {
+  padding: clamp(20px, 3vw, 26px);
+}
+
+.area-location-links h3 {
+  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+}
+
+.area-location-links > p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 10px 0 20px;
+}
+
+.area-location-links ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.area-location-links li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  background: var(--off-white);
+  transition: var(--transition);
+}
+
+.area-location-link-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.area-location-links strong {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  color: var(--dark);
+}
+
+.area-location-links li a svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: var(--primary);
+  transition: transform var(--transition);
+}
+
+.area-location-view-all {
+  margin-top: 20px;
+}
+
+.area-location-view-all .btn {
+  width: 100%;
+}
+
+.area-location-links li a:hover {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.area-location-links li a:hover svg {
+  transform: translateX(4px);
+}
+
+/* ============================================================
    HOW IT WORKS (services page)
    ============================================================ */
 
 .how-it-works {
-  padding-top: clamp(2rem, 5vw, 4rem);
+  background: #e3e3e3;
 }
 
 .how-it-works-head {
@@ -2248,6 +2498,10 @@ h3 {
 /* ============================================================
    SERVICES INTRO (services page)
    ============================================================ */
+
+.services-intro {
+  background: #e3e3e3;
+}
 
 .services-intro .eyebrow-plain {
   margin-bottom: 10px;
@@ -2781,6 +3035,8 @@ h3 {
   .services-list-grid { grid-template-columns: repeat(2, 1fr); }
   .why-choose-grid { grid-template-columns: repeat(2, 1fr); }
   .how-it-works-steps { grid-template-columns: repeat(2, 1fr); }
+  .areas-grid { grid-template-columns: repeat(2, 1fr); }
+  .area-location-links ul { grid-template-columns: repeat(2, 1fr); }
   .service-process-steps { grid-template-columns: repeat(2, 1fr); }
   .reviews-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -2793,6 +3049,10 @@ h3 {
   .why-choose-grid { grid-template-columns: repeat(4, 1fr); gap: 47px; }
   .how-it-works-steps { grid-template-columns: repeat(4, 1fr); gap: 47px; }
   .about-who-grid { grid-template-columns: 1fr 1fr; gap: 60px; }
+  .areas-grid { grid-template-columns: repeat(4, 1fr); }
+  .area-location-grid { grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr); }
+  /* The side column is narrow on desktop, so links go back to a single column. */
+  .area-location-links ul { grid-template-columns: 1fr; }
   .visit-us-grid { grid-template-columns: 1fr 1.1fr; align-items: center; gap: 60px; margin-right: 30px; }
   .visit-us-map::after {
     content: "";
@@ -2824,11 +3084,15 @@ h3 {
 }
 
 @media (max-width: 1023px) {
+  .about-media { margin-bottom: 26px; }
+}
+
+/* Seven nav links plus the phone and WhatsApp button need ~1200px; below that use the burger menu. */
+@media (max-width: 1239px) {
   .nav,
   .header-cta { display: none; }
   .burger { display: flex; }
   .header .header-inner { justify-content: space-between; }
-  .about-media { margin-bottom: 26px; }
 }
 
 @media (max-width: 480px) {

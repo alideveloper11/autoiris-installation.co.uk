@@ -1,47 +1,54 @@
 import Image from "next/image";
 import { Icon } from "@/components/icons";
-import { whyPoints } from "@/data/home";
-import { site } from "@/data/site";
+import { CtaButton, type CtaLink } from "@/components/ui/CtaLinks";
+import type { IconItem } from "./types";
+import RichText from "@/components/ui/RichText";
 
-export default function About() {
+export type AboutProps = {
+  image: { src: string; alt: string };
+  /** `label` may use "\n" for a line break. */
+  badge: { value: string; label: string };
+  eyebrow: string;
+  heading: string;
+  paragraphs: string[];
+  points: IconItem[];
+  cta: CtaLink;
+};
+
+export default function About({
+  image,
+  badge,
+  eyebrow,
+  heading,
+  paragraphs,
+  points,
+  cta,
+}: AboutProps) {
   return (
     <section className="section" id="about">
       <div className="container">
         <div className="about-grid">
           <div className="about-media reveal">
             <span className="frame" aria-hidden="true" />
-            <Image
-              src="/images/warehouse-entrance-cctv-cameras.jpeg"
-              alt="Auto Iris installing CCTV cameras above a warehouse entrance"
-              fill
-              sizes="(min-width: 1024px) 45vw, 100vw"
-            />
+            <Image src={image.src} alt={image.alt} fill sizes="(min-width: 1024px) 45vw, 100vw" />
             <div className="about-badge">
-              <strong>10+</strong>
-              Years of
-              <br />
-              Experience
+              <strong>{badge.value}</strong>
+              <RichText text={badge.label} />
             </div>
           </div>
 
           <div className="about-text">
-            <span className="eyebrow reveal">Why Choose Us</span>
+            <span className="eyebrow reveal">{eyebrow}</span>
             <h2 className="reveal">
-              A Security Company You Can <span className="highlight">Trust &amp; Rely On</span>
+              <RichText text={heading} />
             </h2>
-            <p className="reveal">
-              Based in Barking and trusted by hundreds of homeowners and businesses across
-              the UK, Auto Iris Installations delivers professional security installations.
-              Done right the first time, priced fairly, and guaranteed for a minimum of 12
-              months.
-            </p>
-            <p className="reveal">
-              Whether you&apos;re protecting your family, your home or your business, we come
-              to you from London to Norfolk, Folkestone and Portsmouth, with a no-nonsense,
-              quality-first approach.
-            </p>
+            {paragraphs.map((paragraph) => (
+              <p key={paragraph} className="reveal">
+                {paragraph}
+              </p>
+            ))}
             <ul className="why-list">
-              {whyPoints.map((point, index) => (
+              {points.map((point, index) => (
                 <li key={point.title} className={`reveal reveal-delay-${index + 1}`}>
                   <Icon name={point.icon} />
                   <span>
@@ -50,9 +57,7 @@ export default function About() {
                 </li>
               ))}
             </ul>
-            <a href={site.phoneHref} className="btn btn-dark reveal reveal-delay-2">
-              Call for a Free Estimate
-            </a>
+            <CtaButton cta={cta} className="reveal reveal-delay-2" />
           </div>
         </div>
       </div>

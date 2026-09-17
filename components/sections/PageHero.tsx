@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import RichText from "@/components/ui/RichText";
 
-type PageHeroProps = {
+export type PageHeroProps = {
   /** Trailing crumb; "Home >" is always prepended. */
   breadcrumb: string;
-  heading: ReactNode;
+  /** "[words]" are highlighted and "\n" starts a new line. */
+  heading: string;
   text?: string;
   image: string;
 };
@@ -19,7 +20,9 @@ export default function PageHero({ breadcrumb, heading, text, image }: PageHeroP
         <span className="breadcrumb reveal">
           <Link href="/">Home</Link> &gt; {breadcrumb}
         </span>
-        <h1 className="reveal reveal-delay-1">{heading}</h1>
+        <h1 className="reveal reveal-delay-1">
+          <RichText text={heading} />
+        </h1>
         {text && <p className="reveal reveal-delay-2">{text}</p>}
       </div>
     </section>

@@ -1,12 +1,9 @@
-import type { ReactNode } from "react";
 import { Icon } from "@/components/icons";
-import type { WhyPoint } from "@/data/home";
+import type { IconItem, SectionHead } from "./types";
+import RichText from "@/components/ui/RichText";
 
-type WhyChooseProps = {
-  eyebrow: string;
-  heading: ReactNode;
-  text?: string;
-  items: WhyPoint[];
+export type WhyChooseProps = SectionHead & {
+  items: IconItem[];
   id?: string;
   /** Extra class for page-specific variants, e.g. "why-choose-grey". */
   className?: string;
@@ -25,7 +22,9 @@ export default function WhyChoose({
       <div className="container">
         <div className="why-choose-head">
           <span className="eyebrow-plain reveal">{eyebrow}</span>
-          <h2 className="reveal reveal-delay-1">{heading}</h2>
+          <h2 className="reveal reveal-delay-1">
+            <RichText text={heading} />
+          </h2>
           {text && <p className="reveal reveal-delay-2">{text}</p>}
         </div>
 
