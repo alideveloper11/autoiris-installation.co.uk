@@ -44,6 +44,7 @@ export const navLinks: NavLink[] = [
   { label: "Gallery", href: "/gallery" },
   { label: "Reviews", href: "/reviews" },
   { label: "Contact", href: "/contact" },
+  { label: "About", href: "/about" },
 ];
 
 export const footerServiceLinks: NavLink[] = [
@@ -57,7 +58,7 @@ export const footerServiceLinks: NavLink[] = [
 
 export const footerQuickLinks: NavLink[] = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/#about" },
+  { label: "About Us", href: "/about" },
   { label: "Our Work", href: "/gallery" },
   { label: "Reviews", href: "/reviews" },
   { label: "Get a Quote", href: "/contact" },

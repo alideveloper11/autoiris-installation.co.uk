@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
 import { site } from "@/data/site";
 
 /**
@@ -7,7 +6,7 @@ import { site } from "@/data/site";
  * Keeps the same JSON contract ({ ok, message }) the form has always consumed.
  *
  * Each enquiry is delivered to two channels at once:
- *   - Email, via SMTP (SMTP_* variables)
+ *   - Email, via Resend (RESEND_* variables)
  *   - WhatsApp, via CallMeBot (CALLMEBOT_* variables)
  * See .env.example. The visitor sees success if at least one channel delivered;
  * if neither is configured or both fail, they are asked to call or email instead.
@@ -38,17 +37,31 @@ function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-function transporter() {
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
-  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) return null;
+/** Sends the enquiry email through the Resend API. */
+async function sendEmail(message: { to: string; subject: string; text: string; replyTo?: string }) {
+  const { RESEND_API_KEY, RESEND_FROM } = process.env;
+  if (!RESEND_API_KEY) throw new Error("Resend is not configured");
 
-  const port = Number(SMTP_PORT ?? 587);
-  return nodemailer.createTransport({
-    host: SMTP_HOST,
-    port,
-    secure: port === 465,
-    auth: { user: SMTP_USER, pass: SMTP_PASS },
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      // resend.dev works before a domain is verified, but only delivers to the account's own email.
+      from: RESEND_FROM ?? `${site.name} <onboarding@resend.dev>`,
+      to: message.to,
+      subject: message.subject,
+      text: message.text,
+      reply_to: message.replyTo,
+    }),
+    signal: AbortSignal.timeout(10_000),
+    cache: "no-store",
   });
+  if (!response.ok) {
+    throw new Error(`Resend responded ${response.status}: ${await response.text()}`);
+  }
 }
 
 /** Sends a WhatsApp message to the business number through the CallMeBot API. */
@@ -62,8 +75,11 @@ async function sendWhatsApp(text: string) {
   url.searchParams.set("apikey", CALLMEBOT_APIKEY);
 
   const response = await fetch(url, { signal: AbortSignal.timeout(10_000), cache: "no-store" });
-  if (!response.ok) {
-    throw new Error(`CallMeBot responded ${response.status}: ${await response.text()}`);
+  // CallMeBot reports failures (e.g. a bad API key) with a 2xx status and an HTML page
+  // containing "ERROR: ...", so the body has to be checked as well as the status.
+  const result = (await response.text()).replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  if (!response.ok || /error|invalid/i.test(result)) {
+    throw new Error(`CallMeBot responded ${response.status}: ${result.slice(0, 300)}`);
   }
 }
 
@@ -132,19 +148,15 @@ export async function POST(request: Request) {
     fields.message ? fields.message.slice(0, 1500) : "-",
   ].join("\n");
 
-  const sendEmail = async () => {
-    const mailer = transporter();
-    if (!mailer) throw new Error("SMTP is not configured");
-    await mailer.sendMail({
+  const [email, whatsapp] = await Promise.allSettled([
+    sendEmail({
       to,
-      from: `${site.name} <${process.env.SMTP_FROM ?? process.env.SMTP_USER}>`,
-      replyTo: `${fields.name} <${fields.email || to}>`,
       subject: `Website Enquiry: ${fields.service || "General"} - ${fields.name}`,
       text: body,
-    });
-  };
-
-  const [email, whatsapp] = await Promise.allSettled([sendEmail(), sendWhatsApp(whatsappText)]);
+      replyTo: fields.email || undefined,
+    }),
+    sendWhatsApp(whatsappText),
+  ]);
   if (email.status === "rejected") console.error("[contact] Email failed:", email.reason);
   if (whatsapp.status === "rejected") console.error("[contact] WhatsApp failed:", whatsapp.reason);
 

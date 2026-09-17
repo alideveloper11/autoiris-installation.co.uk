@@ -9,6 +9,8 @@ type CtaBannerProps = {
   actions?: ReactNode;
   /** The oversized phone number below the buttons. */
   showPhone?: boolean;
+  /** Extra class for page-specific variants, e.g. "cta-banner-flat". */
+  className?: string;
 };
 
 const defaultHeading = (
@@ -35,9 +37,10 @@ export default function CtaBanner({
   text = "Get a fast, friendly, no-obligation estimate. Emergency callouts available 24 hours a day, 7 days a week.",
   actions = defaultActions,
   showPhone = true,
+  className,
 }: CtaBannerProps) {
   return (
-    <section className="cta-banner">
+    <section className={className ? `cta-banner ${className}` : "cta-banner"}>
       <div className="container reveal">
         <h2>{heading}</h2>
         <p>{text}</p>

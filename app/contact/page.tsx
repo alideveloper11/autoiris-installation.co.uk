@@ -74,7 +74,7 @@ export default function ContactPage() {
           </>
         }
         text="Fast, friendly and honest. Tell us what you need and we'll come back to you with everything you need to know. Emergency callouts available 24/7."
-        image="/images/commercial-office-installation.jpeg"
+        image="/images/nvr-monitor-multi-camera-grid.jpeg"
       />
 
       <section className="section" id="contact">

@@ -68,7 +68,7 @@ export default function ReviewsPage() {
           </>
         }
         text={`Rated ${rating.value} out of 5 from ${rating.count} verified reviews. Here's what homeowners and businesses say about working with us.`}
-        image="/images/customer-training-session.jpeg"
+        image="/images/supermarket-ceiling-dome-camera.jpeg"
       />
 
       <Stats />

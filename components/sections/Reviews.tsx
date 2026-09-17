@@ -6,24 +6,37 @@ type ReviewsProps = {
   items?: Review[];
   /** The "Read More Reviews" link below the grid; hidden on the reviews page itself. */
   showMoreLink?: boolean;
+  /** The heading and rating summary above the grid; the eyebrow always shows. */
+  showSummary?: boolean;
+  /** Extra class for page-specific variants, e.g. "reviews-grey". */
+  className?: string;
 };
 
-export default function Reviews({ items = allReviews, showMoreLink = true }: ReviewsProps) {
+export default function Reviews({
+  items = allReviews,
+  showMoreLink = true,
+  showSummary = true,
+  className,
+}: ReviewsProps) {
   return (
-    <section className="section reviews" id="reviews">
+    <section className={`section reviews${className ? ` ${className}` : ""}`} id="reviews">
       <div className="container">
         <div className="section-head center">
           <span className="eyebrow reveal">Reviews</span>
-          <h2 className="reveal">
-            Rated <span className="highlight">{rating.value} out of 5</span> By Our Customers
-          </h2>
+          {showSummary && (
+            <h2 className="reveal">
+              Rated <span className="highlight">{rating.value} out of 5</span> By Our Customers
+            </h2>
+          )}
         </div>
 
-        <div className="rating-hero reveal">
-          <span className="score">{rating.value}</span>
-          <Stars className="hero-stars" />
-          <span className="meta">{rating.meta}</span>
-        </div>
+        {showSummary && (
+          <div className="rating-hero reveal">
+            <span className="score">{rating.value}</span>
+            <Stars className="hero-stars" />
+            <span className="meta">{rating.meta}</span>
+          </div>
+        )}
 
         <div className="reviews-grid">
           {items.map((review, index) => (
