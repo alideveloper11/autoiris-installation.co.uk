@@ -1,4 +1,10 @@
 import type { IconName } from "@/components/icons";
+import type { CtaBannerProps } from "@/components/sections/CtaBanner";
+import type { PageHeroProps } from "@/components/sections/PageHero";
+import type { ReviewHighlightsProps } from "@/components/sections/ReviewHighlights";
+import type { ReviewsProps } from "@/components/sections/Reviews";
+import type { StatsProps } from "@/components/sections/Stats";
+import { site, stats as statItems } from "./site";
 
 export type Review = {
   quote: string;
@@ -85,3 +91,49 @@ export const reviewHighlights: ReviewHighlight[] = [
     author: "Waleed",
   },
 ];
+
+/* Reviews page content. Headings: "[words]" are highlighted, "\n" starts a new line. */
+
+/** Page title and description for search results and link previews. */
+export const reviewsMeta = {
+  title: `Auto Iris Reviews | ${rating.value} Rated CCTV & Alarm Installers`,
+  description: `Read ${rating.count} customer reviews of Auto Iris Installations, rated ${rating.value} for CCTV, intruder alarm and access control installs across London & Essex.`,
+  socialTitle: `Auto Iris Installations Reviews: Rated ${rating.value} Out Of 5`,
+  socialDescription: `See what ${rating.count} homeowners and businesses say about our CCTV, alarm and access control installations.`,
+  image: "/images/supermarket-ceiling-dome-camera.jpeg",
+};
+
+const hero: PageHeroProps = {
+  breadcrumb: "Reviews",
+  heading: "Customer Reviews Of Our\n[CCTV & Alarm Installations]",
+  text: `Rated ${rating.value} out of 5 from ${rating.count} reviews. Read what homeowners, landlords and businesses across London and Essex say about our CCTV, intruder alarm and access control installations.`,
+  image: reviewsMeta.image,
+};
+
+const stats: StatsProps = { items: statItems };
+
+const reviewsSection: ReviewsProps = {
+  eyebrow: "Real Customer Feedback",
+  heading: "What Customers Say About [Our Installers]",
+  rating: { score: rating.value, meta: rating.meta },
+  items: reviews,
+};
+
+const highlights: ReviewHighlightsProps = {
+  eyebrow: "What Stands Out",
+  heading: "Why Customers [Recommend Us]",
+  text: "From neat, hidden cabling to same-day callouts, these are the things customers mention most when they review our security installations.",
+  items: reviewHighlights,
+};
+
+const cta: CtaBannerProps = {
+  heading: `Join Our [${rating.count}+] Happy Customers`,
+  text: "Get the same professional, tidy CCTV, alarm or access control installation at your home or business. Free, no-obligation quotes across London and Essex.",
+  ctas: [
+    { label: "Get a Free Quote", href: "/contact", variant: "dark" },
+    { label: "WhatsApp Us", href: site.whatsapp, variant: "outline" },
+  ],
+  phone: { label: site.phoneDisplay, href: site.phoneHref },
+};
+
+export const reviewsContent = { hero, stats, reviews: reviewsSection, highlights, cta };

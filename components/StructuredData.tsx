@@ -1,5 +1,6 @@
 import { site } from "@/data/site";
 import { rating } from "@/data/reviews";
+import { allServices } from "@/data/services";
 
 /** LocalBusiness schema, emitted once from the root layout. */
 export default function StructuredData() {
@@ -51,11 +52,15 @@ export default function StructuredData() {
       ratingValue: rating.value,
       reviewCount: String(rating.count),
     },
-    makesOffer: [
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "CCTV Installation" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Intruder Alarms" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Access Control" } },
-    ],
+    makesOffer: allServices.map((service) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: service.title,
+        description: service.description,
+        url: `${site.url}/services/${service.slug}`,
+      },
+    })),
   };
 
   return (

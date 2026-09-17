@@ -1,26 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { galleryItems, type GalleryItem } from "@/data/gallery";
+import { CtaButton, type CtaLink } from "@/components/ui/CtaLinks";
+import type { GalleryItem } from "@/data/gallery";
+import type { SectionHead } from "./types";
+import RichText from "@/components/ui/RichText";
 
-type GalleryProps = {
-  items?: GalleryItem[];
+export type GalleryProps = {
+  items: GalleryItem[];
   /** Rendered above the grid; omitted on pages that supply their own heading. */
-  withHeading?: boolean;
-  /** Show only the first N photos, followed by a link to the full gallery page. */
+  head?: SectionHead;
+  /** Show only the first N photos. */
   limit?: number;
+  /** Link shown under the grid when photos are hidden by `limit`. */
+  viewAll?: CtaLink;
   /** Extra class for page-specific variants, e.g. "gallery-spaced". */
   className?: string;
 };
 
-export default function Gallery({
-  items = galleryItems,
-  withHeading = true,
-  limit,
-  className,
-}: GalleryProps) {
+export default function Gallery({ items, head, limit, viewAll, className }: GalleryProps) {
   const visible = limit ? items.slice(0, limit) : items;
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const active = activeIndex === null ? null : visible[activeIndex];
@@ -51,16 +50,13 @@ export default function Gallery({
   return (
     <section className={className ? `section ${className}` : "section"} id="gallery">
       <div className="container">
-        {withHeading && (
+        {head && (
           <div className="section-head center">
-            <span className="eyebrow reveal">Our Work</span>
+            <span className="eyebrow reveal">{head.eyebrow}</span>
             <h2 className="reveal">
-              Recent <span className="highlight">Installations</span>
+              <RichText text={head.heading} />
             </h2>
-            <p className="lead reveal">
-              A snapshot of the quality you can expect, from domestic CCTV to commercial
-              door entry and emergency installs. Tap any photo to enlarge.
-            </p>
+            {head.text && <p className="lead reveal">{head.text}</p>}
           </div>
         )}
 
@@ -82,11 +78,9 @@ export default function Gallery({
           ))}
         </div>
 
-        {limit !== undefined && items.length > limit && (
+        {viewAll && limit !== undefined && items.length > limit && (
           <div className="gallery-footer reveal">
-            <Link href="/gallery" className="btn btn-primary">
-              View All {items.length} Photos
-            </Link>
+            <CtaButton cta={viewAll} />
           </div>
         )}
       </div>
@@ -113,13 +107,7 @@ export default function Gallery({
               &lsaquo;
             </button>
             <figure className="lightbox-figure">
-              <Image
-                src={active.src}
-                alt={active.alt}
-                width={1600}
-                height={900}
-                sizes="100vw"
-              />
+              <Image src={active.src} alt={active.alt} width={1600} height={900} sizes="100vw" />
               <figcaption>
                 {active.caption}
                 <span>

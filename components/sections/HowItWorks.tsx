@@ -1,22 +1,22 @@
-import { howItWorksSteps } from "@/data/services";
+import type { NumberedStep, SectionHead } from "./types";
+import RichText from "@/components/ui/RichText";
 
-export default function HowItWorks() {
+export type HowItWorksProps = SectionHead & { steps: NumberedStep[] };
+
+export default function HowItWorks({ eyebrow, heading, text, steps }: HowItWorksProps) {
   return (
     <section className="section how-it-works" id="how-it-works">
       <div className="container">
         <div className="how-it-works-head">
-          <span className="eyebrow-plain reveal">How It Works</span>
+          <span className="eyebrow-plain reveal">{eyebrow}</span>
           <h2 className="reveal reveal-delay-1">
-            Secured In <span className="highlight">Four Simple Steps</span>
+            <RichText text={heading} />
           </h2>
-          <p className="reveal reveal-delay-2">
-            From your first call to long-term aftercare, we keep the whole process quick, clear
-            and hassle-free.
-          </p>
+          {text && <p className="reveal reveal-delay-2">{text}</p>}
         </div>
 
         <ol className="how-it-works-steps">
-          {howItWorksSteps.map((step, index) => (
+          {steps.map((step, index) => (
             <li
               key={step.number}
               className={`how-step reveal${index ? ` reveal-delay-${index}` : ""}`}
@@ -25,7 +25,7 @@ export default function HowItWorks() {
                 {step.number}
               </span>
               <h3>{step.title}</h3>
-              <p>{step.text}</p>
+              {step.text && <p>{step.text}</p>}
             </li>
           ))}
         </ol>

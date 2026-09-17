@@ -1,97 +1,77 @@
 import type { Metadata } from "next";
-import CenteredHero, { type HeroTrustItem } from "@/components/sections/CenteredHero";
+import FullScreenHero from "@/components/sections/FullScreenHero";
 import Stats from "@/components/sections/Stats";
 import AboutWhoWeAre from "@/components/sections/AboutWhoWeAre";
+import WhyChoose from "@/components/sections/WhyChoose";
 import AboutOneTeam from "@/components/sections/AboutOneTeam";
+import CtaBanner from "@/components/sections/CtaBanner";
 import EveryAngle from "@/components/sections/EveryAngle";
-import ServicesCta from "@/components/sections/ServicesCta";
 import ServicesIntro from "@/components/sections/ServicesIntro";
 import Coverage from "@/components/sections/Coverage";
 import Reviews from "@/components/sections/Reviews";
 import Faqs from "@/components/sections/Faqs";
-import { securitySolutionsParagraphs } from "@/data/services";
-import WhyChoose from "@/components/sections/WhyChoose";
-import { aboutValues } from "@/data/about";
+import { aboutContent as content, aboutMeta } from "@/data/about";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "About Us | Local CCTV, Alarm & Access Control Installers",
-  description:
-    "Auto Iris Installations provides dependable CCTV, intruder alarms, access control, door entry, aerial and satellite services for homes and businesses across East London, Essex and surrounding areas.",
+  title: { absolute: aboutMeta.title },
+  description: aboutMeta.description,
   alternates: { canonical: "/about" },
   openGraph: {
     type: "website",
     siteName: site.name,
     url: "/about",
-    title: "About Auto Iris Installations | Security Installed With Care",
-    description:
-      "Local, fully insured security installers covering East London, Essex and surrounding areas.",
-    images: [site.heroImage],
+    title: aboutMeta.socialTitle,
+    description: aboutMeta.socialDescription,
+    images: [aboutMeta.image],
     locale: "en_GB",
   },
   twitter: {
     card: "summary_large_image",
-    title: "About Auto Iris Installations",
-    description: "Security installed with care across East London, Essex and beyond.",
-    images: [site.heroImage],
+    title: aboutMeta.socialTitle,
+    description: aboutMeta.socialDescription,
+    images: [aboutMeta.image],
   },
 };
 
-const aboutHeroTrust: HeroTrustItem[] = [
-  { icon: "shieldCheck", label: "Local Team" },
-  { icon: "fastForward", label: "Fast Response" },
-  { icon: "lock", label: "Fully Insured" },
-];
+/** Describes the page as the company's About page. */
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: aboutMeta.title,
+  url: `${site.url}/about`,
+  mainEntity: { "@type": "LocalBusiness", "@id": `${site.url}/`, name: site.name },
+};
 
 export default function AboutPage() {
   return (
     <>
-      <CenteredHero
-        eyebrow="About Auto Iris"
-        heading="Security Installed"
-        highlightPrefix="With"
-        highlight="Care."
-        text="Auto Iris Installations provides dependable CCTV, intruder alarms, access control, door entry, aerial and satellite services for homes and businesses across East London, Essex and surrounding areas."
-        image="/images/about-hero.jpg"
-        trust={aboutHeroTrust}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
       />
 
-      <Stats />
+      <FullScreenHero {...content.hero} />
 
-      <AboutWhoWeAre />
+      <Stats {...content.stats} />
 
-      <WhyChoose
-        id="values"
-        className="why-choose-grey"
-        eyebrow="What We Stand For"
-        heading="Simple, Reliable, Professional"
-        items={aboutValues}
-      />
+      <AboutWhoWeAre {...content.whoWeAre} />
 
-      <AboutOneTeam />
+      <WhyChoose {...content.values} />
 
-      <ServicesCta variant="outline" />
+      <AboutOneTeam {...content.oneTeam} />
 
-      <EveryAngle />
+      <CtaBanner {...content.localTeamCta} />
 
-      <ServicesIntro
-        id="local-knowledge"
-        eyebrow="Protection You Can Trust"
-        heading={
-          <>
-            Local Knowledge.
-            <br />
-            Professional Results.
-          </>
-        }
-        paragraphs={securitySolutionsParagraphs}
-      />
+      <EveryAngle {...content.everyAngle} />
 
-      <Coverage id="coverage" />
+      <ServicesIntro {...content.localKnowledge} />
 
-      <Reviews className="reviews-grey" showSummary={false} showMoreLink={false} />
+      <Coverage {...content.coverage} />
 
-      <Faqs />
+      <Reviews {...content.reviews} />
+
+      <Faqs {...content.faqs} />
     </>
   );
 }

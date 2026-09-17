@@ -1,8 +1,8 @@
-import type { ReactNode } from "react";
+import RichText from "@/components/ui/RichText";
 
-type ServicesIntroProps = {
+export type ServicesIntroProps = {
   eyebrow?: string;
-  heading: ReactNode;
+  heading: string;
   paragraphs: string[];
   id?: string;
 };
@@ -17,7 +17,9 @@ export default function ServicesIntro({
     <section className="section services-intro" id={id}>
       <div className="container">
         {eyebrow && <span className="eyebrow-plain reveal">{eyebrow}</span>}
-        <h2 className="reveal">{heading}</h2>
+        <h2 className="reveal">
+          <RichText text={heading} />
+        </h2>
         <div className="services-intro-body reveal reveal-delay-1">
           {paragraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>

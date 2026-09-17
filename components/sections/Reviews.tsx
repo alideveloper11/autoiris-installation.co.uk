@@ -1,38 +1,43 @@
-import Link from "next/link";
 import { Stars } from "@/components/icons";
-import { rating, reviews as allReviews, type Review } from "@/data/reviews";
+import { CtaButton, type CtaLink } from "@/components/ui/CtaLinks";
+import type { Review } from "@/data/reviews";
+import RichText from "@/components/ui/RichText";
 
-type ReviewsProps = {
-  items?: Review[];
-  /** The "Read More Reviews" link below the grid; hidden on the reviews page itself. */
-  showMoreLink?: boolean;
-  /** The heading and rating summary above the grid; the eyebrow always shows. */
-  showSummary?: boolean;
+export type ReviewsProps = {
+  eyebrow: string;
+  heading?: string;
+  /** Score box above the grid; omitted when not supplied. */
+  rating?: { score: string; meta: string };
+  items: Review[];
+  /** Text and button below the grid; omitted when not supplied. */
+  more?: { text: string; cta: CtaLink };
   /** Extra class for page-specific variants, e.g. "reviews-grey". */
   className?: string;
 };
 
 export default function Reviews({
-  items = allReviews,
-  showMoreLink = true,
-  showSummary = true,
+  eyebrow,
+  heading,
+  rating,
+  items,
+  more,
   className,
 }: ReviewsProps) {
   return (
     <section className={`section reviews${className ? ` ${className}` : ""}`} id="reviews">
       <div className="container">
         <div className="section-head center">
-          <span className="eyebrow reveal">Reviews</span>
-          {showSummary && (
+          <span className="eyebrow reveal">{eyebrow}</span>
+          {heading && (
             <h2 className="reveal">
-              Rated <span className="highlight">{rating.value} out of 5</span> By Our Customers
+              <RichText text={heading} />
             </h2>
           )}
         </div>
 
-        {showSummary && (
+        {rating && (
           <div className="rating-hero reveal">
-            <span className="score">{rating.value}</span>
+            <span className="score">{rating.score}</span>
             <Stars className="hero-stars" />
             <span className="meta">{rating.meta}</span>
           </div>
@@ -54,12 +59,10 @@ export default function Reviews({
           ))}
         </div>
 
-        {showMoreLink && (
+        {more && (
           <div className="reviews-footer reveal">
-            <p>See why {rating.count} customers rate us five stars.</p>
-            <Link href="/reviews" className="btn btn-dark">
-              Read More Reviews
-            </Link>
+            <p>{more.text}</p>
+            <CtaButton cta={more.cta} />
           </div>
         )}
       </div>

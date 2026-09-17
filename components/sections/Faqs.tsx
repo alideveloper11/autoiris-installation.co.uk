@@ -1,16 +1,25 @@
-import { serviceFaqs } from "@/data/services";
+import RichText from "@/components/ui/RichText";
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: serviceFaqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: { "@type": "Answer", text: faq.answer },
-  })),
+export type Faq = { question: string; answer: string };
+
+export type FaqsProps = {
+  eyebrow: string;
+  heading: string;
+  /** Also emitted as FAQPage structured data. */
+  items: Faq[];
 };
 
-export default function Faqs() {
+export default function Faqs({ eyebrow, heading, items }: FaqsProps) {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+
   return (
     <section className="section faqs" id="faqs">
       <script
@@ -19,12 +28,14 @@ export default function Faqs() {
       />
       <div className="container">
         <div className="faqs-head">
-          <span className="eyebrow-plain reveal">Need To Know More?</span>
-          <h2 className="reveal reveal-delay-1">Frequently Asked Questions</h2>
+          <span className="eyebrow-plain reveal">{eyebrow}</span>
+          <h2 className="reveal reveal-delay-1">
+            <RichText text={heading} />
+          </h2>
         </div>
 
         <div className="faq-list reveal reveal-delay-2">
-          {serviceFaqs.map((faq, index) => (
+          {items.map((faq, index) => (
             <details
               key={faq.question}
               className="faq-item"

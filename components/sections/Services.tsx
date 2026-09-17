@@ -1,9 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon } from "@/components/icons";
-import { services, subServiceChips, type Service } from "@/data/services";
+import type { SectionHead } from "./types";
+import RichText from "@/components/ui/RichText";
 
-function ServiceCard({ service, index }: { service: Service; index: number }) {
+export type ServiceCardItem = {
+  number: string;
+  title: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  ctaLabel: string;
+  ctaHref: string;
+};
+
+export type ServicesProps = SectionHead & {
+  items: ServiceCardItem[];
+  chipsHeading: string;
+  chips: string[];
+};
+
+function ServiceCard({ service, index }: { service: ServiceCardItem; index: number }) {
   const isExternal = service.ctaHref.startsWith("http");
   const cta = (
     <>
@@ -39,33 +56,37 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
   );
 }
 
-export default function Services() {
+export default function Services({
+  eyebrow,
+  heading,
+  text,
+  items,
+  chipsHeading,
+  chips,
+}: ServicesProps) {
   return (
     <section className="section services" id="services">
       <div className="container">
         <div className="section-head center">
-          <span className="eyebrow reveal">Our Services</span>
+          <span className="eyebrow reveal">{eyebrow}</span>
           <h2 className="reveal">
-            Security Systems, <span className="highlight">Supplied &amp; Fitted</span>
+            <RichText text={heading} />
           </h2>
-          <p className="lead reveal">
-            Everything you need to protect and secure your home or business, installed by a
-            certified professional.
-          </p>
+          {text && <p className="lead reveal">{text}</p>}
         </div>
 
         <div className="services-grid">
-          {services.map((service, index) => (
+          {items.map((service, index) => (
             <ServiceCard key={service.title} service={service} index={index} />
           ))}
         </div>
 
         <div className="sub-services reveal">
           <h3 className="reveal">
-            Every Angle <span>Covered</span>
+            <RichText text={chipsHeading} />
           </h3>
           <div className="chip-grid">
-            {subServiceChips.map((chip) => (
+            {chips.map((chip) => (
               <span className="chip" key={chip}>
                 {chip}
               </span>

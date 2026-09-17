@@ -2,10 +2,20 @@
 
 import { SendIcon } from "@/components/icons";
 import { serviceOptionLabels, serviceOptions, urgencyOptions } from "@/data/contact";
-import { site } from "@/data/site";
+import { CtaButton, type CtaLink } from "@/components/ui/CtaLinks";
 import { useEnquirySubmit } from "@/hooks/useEnquirySubmit";
+import RichText from "@/components/ui/RichText";
 
-export default function ContactForm() {
+export type ContactFormProps = {
+  heading: string;
+  text: string;
+  submitLabel: string;
+  /** Secondary button beside the submit button. */
+  call: CtaLink;
+  note: string;
+};
+
+export default function ContactForm({ heading, text, submitLabel, call, note }: ContactFormProps) {
   const { status, statusRef, sending, handleSubmit } = useEnquirySubmit();
 
   return (
@@ -21,12 +31,9 @@ export default function ContactForm() {
       )}
 
       <h2>
-        Request Your <span className="highlight">Free Quote</span>
+        <RichText text={heading} />
       </h2>
-      <p>
-        Fill in the form and we&apos;ll get back to you shortly, usually within the hour on
-        working days.
-      </p>
+      <p>{text}</p>
 
       <form onSubmit={handleSubmit} noValidate>
         <div className="hp-field" aria-hidden="true">
@@ -41,13 +48,7 @@ export default function ContactForm() {
           </div>
           <div className="field">
             <label htmlFor="phone">Phone Number *</label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              placeholder="e.g. 07XXX XXXXXX"
-              required
-            />
+            <input type="tel" id="phone" name="phone" placeholder="e.g. 07XXX XXXXXX" required />
           </div>
           <div className="field">
             <label htmlFor="email">Email Address</label>
@@ -89,16 +90,11 @@ export default function ContactForm() {
 
         <div className="form-actions">
           <button type="submit" className="btn btn-primary btn-lg" disabled={sending}>
-            {sending ? "Sending…" : "Send My Enquiry"}
+            {sending ? "Sending…" : submitLabel}
             <SendIcon />
           </button>
-          <a href={site.phoneHref} className="btn btn-dark">
-            Or Call {site.phoneDisplay}
-          </a>
-          <p className="form-note">
-            Prefer to talk? We&apos;re available 24 hours. No voicemail games, you get a real
-            person.
-          </p>
+          <CtaButton cta={call} />
+          <p className="form-note">{note}</p>
         </div>
       </form>
     </div>

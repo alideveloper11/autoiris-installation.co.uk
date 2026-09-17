@@ -1,3 +1,8 @@
+import type { CtaBannerProps } from "@/components/sections/CtaBanner";
+import type { GalleryProps } from "@/components/sections/Gallery";
+import type { PageHeroProps } from "@/components/sections/PageHero";
+import { site } from "./site";
+
 export type GalleryItem = {
   src: string;
   alt: string;
@@ -52,8 +57,8 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     src: "/images/domestic-cctv-installation.jpg",
-    alt: "Domestic CCTV installation",
-    caption: "Domestic CCTV installation",
+    alt: "Uniview bullet and turret CCTV cameras installed on metal wall cladding",
+    caption: "Bullet & turret CCTV cameras",
   },
   {
     src: "/images/supermarket-ceiling-dome-camera.jpeg",
@@ -97,8 +102,8 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     src: "/images/ip-access-control-installation.jpg",
-    alt: "IP access control installation",
-    caption: "IP access control work",
+    alt: "Turret CCTV camera installed on a brick wall beneath a red canopy",
+    caption: "Brick wall turret camera",
   },
   {
     src: "/images/basement-plant-room-turret-camera.jpeg",
@@ -194,3 +199,44 @@ export const galleryItems: GalleryItem[] = [
 
 /** How many photos the home page shows before linking to the full gallery. */
 export const homeGalleryLimit = 9;
+
+/* Gallery page content. Headings: "[words]" are highlighted, "\n" starts a new line. */
+
+/** Page title and description for search results and link previews. */
+export const galleryMeta = {
+  title: "CCTV & Alarm Installation Photos | Auto Iris Gallery",
+  description:
+    "Photos of real CCTV, intruder alarm, access control and door entry installations by Auto Iris Installations for homes and businesses in London & Essex.",
+  socialTitle: "Auto Iris Installations: Security Installation Photo Gallery",
+  socialDescription:
+    "See real CCTV, alarm and door entry installations completed by our engineers across London and Essex.",
+  image: "/images/weatherproof-installation.jpeg",
+};
+
+const hero: PageHeroProps = {
+  breadcrumb: "Gallery",
+  heading: "Our Security Installations, [Up Close]",
+  text: "Browse real CCTV, intruder alarm, door entry and access control installations completed by our own engineers for homes, shops, warehouses and commercial buildings across London and Essex. Tap any photo to enlarge.",
+  image: galleryMeta.image,
+};
+
+const gallery: GalleryProps = {
+  head: {
+    eyebrow: "Project Photos",
+    heading: "CCTV, Alarm & Door Entry [Installations]",
+    text: "From HD cameras covering car parks and entrances to alarm panels, video intercoms and neat comms cabinets, every photo shows work carried out by the Auto Iris team.",
+  },
+  items: galleryItems,
+};
+
+const cta: CtaBannerProps = {
+  heading: "Want An Installation [Like These]?",
+  text: "Get the same neat, reliable CCTV, alarm or access control installation at your home or business, with free, no-obligation quotes across London and Essex.",
+  ctas: [
+    { label: "Get a Free Quote", href: "/contact", variant: "dark" },
+    { label: "WhatsApp Us", href: site.whatsapp, variant: "outline" },
+  ],
+  phone: { label: site.phoneDisplay, href: site.phoneHref },
+};
+
+export const galleryContent = { hero, gallery, cta };

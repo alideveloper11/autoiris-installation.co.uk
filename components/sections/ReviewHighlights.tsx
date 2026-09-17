@@ -1,23 +1,24 @@
 import { Icon } from "@/components/icons";
-import { reviewHighlights } from "@/data/reviews";
+import type { ReviewHighlight } from "@/data/reviews";
+import type { SectionHead } from "./types";
+import RichText from "@/components/ui/RichText";
 
-export default function ReviewHighlights() {
+export type ReviewHighlightsProps = SectionHead & { items: ReviewHighlight[] };
+
+export default function ReviewHighlights({ eyebrow, heading, text, items }: ReviewHighlightsProps) {
   return (
     <section className="section" id="highlights">
       <div className="container">
         <div className="section-head center">
-          <span className="eyebrow reveal">What Stands Out</span>
+          <span className="eyebrow reveal">{eyebrow}</span>
           <h2 className="reveal">
-            What Our Customers <span className="highlight">Mention Most</span>
+            <RichText text={heading} />
           </h2>
-          <p className="lead reveal">
-            The same things come up again and again in our reviews, in our customers&apos;
-            own words.
-          </p>
+          {text && <p className="lead reveal">{text}</p>}
         </div>
 
         <div className="contact-cards review-highlights">
-          {reviewHighlights.map((highlight, index) => (
+          {items.map((highlight, index) => (
             <div
               key={highlight.title}
               className={`contact-card reveal${index ? ` reveal-delay-${index}` : ""}`}

@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import BrandsStrip from "@/components/layout/BrandsStrip";
 import ScrollReveal from "@/components/ScrollReveal";
+import ScrollToSection from "@/components/ScrollToSection";
 import StructuredData from "@/components/StructuredData";
 import { site } from "@/data/site";
 import "./globals.css";
@@ -70,6 +71,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <BrandsStrip />
         <Footer />
         <ScrollReveal />
+        <ScrollToSection />
       </body>
     </html>
   );

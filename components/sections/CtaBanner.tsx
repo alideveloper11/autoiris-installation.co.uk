@@ -1,56 +1,32 @@
-import Link from "next/link";
-import type { ReactNode } from "react";
 import { PhoneIcon } from "@/components/icons";
-import { site } from "@/data/site";
+import CtaLinks, { type CtaLink } from "@/components/ui/CtaLinks";
+import RichText from "@/components/ui/RichText";
 
-type CtaBannerProps = {
-  heading?: ReactNode;
-  text?: string;
-  actions?: ReactNode;
-  /** The oversized phone number below the buttons. */
-  showPhone?: boolean;
+export type CtaBannerProps = {
+  heading: string;
+  text: string;
+  ctas: CtaLink[];
+  /** Oversized phone number below the buttons; omitted when not supplied. */
+  phone?: { label: string; href: string };
   /** Extra class for page-specific variants, e.g. "cta-banner-flat". */
   className?: string;
 };
 
-const defaultHeading = (
-  <>
-    Worried About Your Security?
-    <br />
-    Let&apos;s Fix That Today.
-  </>
-);
-
-const defaultActions = (
-  <>
-    <a href={site.whatsapp} className="btn btn-whatsapp btn-lg">
-      WhatsApp Us
-    </a>
-    <Link href="/contact" className="btn btn-outline btn-lg">
-      Request a Quote
-    </Link>
-  </>
-);
-
-export default function CtaBanner({
-  heading = defaultHeading,
-  text = "Get a fast, friendly, no-obligation estimate. Emergency callouts available 24 hours a day, 7 days a week.",
-  actions = defaultActions,
-  showPhone = true,
-  className,
-}: CtaBannerProps) {
+export default function CtaBanner({ heading, text, ctas, phone, className }: CtaBannerProps) {
   return (
     <section className={className ? `cta-banner ${className}` : "cta-banner"}>
       <div className="container reveal">
-        <h2>{heading}</h2>
+        <h2>
+          <RichText text={heading} />
+        </h2>
         <p>{text}</p>
         <div className="hero-ctas" style={{ justifyContent: "center" }}>
-          {actions}
+          <CtaLinks ctas={ctas} />
         </div>
-        {showPhone && (
-          <a className="phone-big" href={site.phoneHref}>
+        {phone && (
+          <a className="phone-big" href={phone.href}>
             <PhoneIcon />
-            {site.phoneDisplay}
+            {phone.label}
           </a>
         )}
       </div>

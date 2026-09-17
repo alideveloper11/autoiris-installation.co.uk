@@ -1,19 +1,27 @@
 import Link from "next/link";
 import { Fragment } from "react";
 import { Icon, PhoneSolidIcon, StarIcon } from "@/components/icons";
-import { infoRows } from "@/data/contact";
-import { rating } from "@/data/reviews";
-import { site } from "@/data/site";
+import type { IconItem } from "./types";
+import RichText from "@/components/ui/RichText";
 
-export default function ContactInfo() {
+export type ContactInfoProps = {
+  eyebrow: string;
+  heading: string;
+  rows: IconItem[];
+  /** Final row with the star icon: "{text} {link}{suffix}". */
+  rating: { title: string; text: string; link: { label: string; href: string }; suffix: string };
+  badge: string;
+};
+
+export default function ContactInfo({ eyebrow, heading, rows, rating, badge }: ContactInfoProps) {
   return (
     <aside className="info-card reveal reveal-delay-1">
-      <span className="eyebrow">Good to know</span>
+      <span className="eyebrow">{eyebrow}</span>
       <h2>
-        Why Call <span style={{ color: "var(--primary)" }}>Auto Iris</span>?
+        <RichText text={heading} />
       </h2>
 
-      {infoRows.map((row) => (
+      {rows.map((row) => (
         <Fragment key={row.title}>
           <div className="row">
             <Icon name={row.icon} />
@@ -29,20 +37,17 @@ export default function ContactInfo() {
       <div className="row">
         <StarIcon aria-hidden="true" />
         <div>
-          <strong>
-            {rating.value} Rated ({rating.count} Reviews)
-          </strong>
+          <strong>{rating.title}</strong>
           <p>
-            See what our customers say on our{" "}
-            <Link href="/reviews">reviews page</Link>
-            .
+            {rating.text} <Link href={rating.link.href}>{rating.link.label}</Link>
+            {rating.suffix}
           </p>
         </div>
       </div>
 
       <span className="badge">
         <PhoneSolidIcon />
-        Call {site.phoneDisplay}
+        {badge}
       </span>
     </aside>
   );

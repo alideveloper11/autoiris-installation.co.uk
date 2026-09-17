@@ -1,16 +1,26 @@
-export default function ServicesQuote() {
+import { Fragment } from "react";
+import RichText from "@/components/ui/RichText";
+
+export type ServicesQuoteProps = {
+  heading: string;
+  /** Each line starts on a new line. */
+  lines: string[];
+};
+
+export default function ServicesQuote({ heading, lines }: ServicesQuoteProps) {
   return (
     <section className="section services-quote" id="quote">
       <div className="container">
-        <h2 className="reveal">Get A CCTV &amp; Security System Quote</h2>
+        <h2 className="reveal">
+          <RichText text={heading} />
+        </h2>
         <p className="reveal reveal-delay-1">
-          Need CCTV installation, Auto Iris cameras, an intruder alarm, access control, or a
-          complete security system?
-          <br />
-          Contact us today to discuss your requirements and arrange a professional security
-          assessment or installation quote.
-          <br />
-          Secure your property with the right security solution &mdash; contact us today.
+          {lines.map((line, index) => (
+            <Fragment key={line}>
+              {index > 0 && <br />}
+              {line}
+            </Fragment>
+          ))}
         </p>
       </div>
     </section>

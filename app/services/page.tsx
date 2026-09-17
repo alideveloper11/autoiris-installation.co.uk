@@ -1,76 +1,83 @@
 import type { Metadata } from "next";
-import CenteredHero from "@/components/sections/CenteredHero";
+import FullScreenHero from "@/components/sections/FullScreenHero";
 import ServicesList from "@/components/sections/ServicesList";
 import EveryAngle from "@/components/sections/EveryAngle";
-import ServicesCta from "@/components/sections/ServicesCta";
-import ServicesWhyChoose from "@/components/sections/ServicesWhyChoose";
+import CtaBanner from "@/components/sections/CtaBanner";
+import WhyChoose from "@/components/sections/WhyChoose";
 import HowItWorks from "@/components/sections/HowItWorks";
 import ServicesIntro from "@/components/sections/ServicesIntro";
-import { securitySolutionsParagraphs } from "@/data/services";
 import ServicesQuote from "@/components/sections/ServicesQuote";
 import ServicesTrust from "@/components/sections/ServicesTrust";
 import Reviews from "@/components/sections/Reviews";
 import Faqs from "@/components/sections/Faqs";
+import { allServices, servicesContent as content, servicesMeta } from "@/data/services";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Our Services | CCTV, Intruder Alarms & Access Control Installation",
-  description:
-    "CCTV installation, intruder alarms, access control and door entry systems, supplied and fitted by a certified professional. Serving homes and businesses across London, Essex, Kent & beyond.",
+  title: { absolute: servicesMeta.title },
+  description: servicesMeta.description,
   alternates: { canonical: "/services" },
   openGraph: {
     type: "website",
     siteName: site.name,
     url: "/services",
-    title: "Our Services | Auto Iris Installations",
-    description:
-      "Security systems, supplied and fitted. CCTV, intruder alarms, access control and door entry for homes and businesses.",
-    images: [site.heroImage],
+    title: servicesMeta.socialTitle,
+    description: servicesMeta.socialDescription,
+    images: [servicesMeta.image],
     locale: "en_GB",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Our Services | Auto Iris Installations",
-    description: "CCTV, intruder alarms, access control and door entry, supplied and fitted.",
-    images: [site.heroImage],
+    title: servicesMeta.socialTitle,
+    description: servicesMeta.socialDescription,
+    images: [servicesMeta.image],
   },
+};
+
+/** Lists every service page so search engines understand the page structure. */
+const servicesSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: `${site.name} Security Services`,
+  itemListElement: allServices.map((service, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: service.title,
+    url: `${site.url}/services/${service.slug}`,
+  })),
 };
 
 export default function ServicesPage() {
   return (
     <>
-      <CenteredHero
-        eyebrow="Our Services"
-        heading="Security Systems,"
-        highlight="Supplied & Fitted"
-        text="Everything you need to protect and secure your home or business, installed by a certified professional"
-        image="/images/services-hero.jpg"
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesSchema) }}
       />
 
-      <ServicesList />
+      <FullScreenHero {...content.hero} />
 
-      <EveryAngle />
+      <ServicesList {...content.servicesList} />
 
-      <ServicesCta variant="flat" />
+      <EveryAngle {...content.everyAngle} />
 
-      <ServicesWhyChoose />
+      <CtaBanner {...content.worriedCta} />
 
-      <HowItWorks />
+      <WhyChoose {...content.whyChoose} />
 
-      <ServicesIntro
-        heading="Professional Security Solutions For Homes And Businesses"
-        paragraphs={securitySolutionsParagraphs}
-      />
+      <HowItWorks {...content.howItWorks} />
 
-      <ServicesCta variant="outline" />
+      <ServicesIntro {...content.securitySolutions} />
 
-      <ServicesQuote />
+      <CtaBanner {...content.secureCta} />
 
-      <ServicesTrust />
+      <ServicesQuote {...content.quote} />
 
-      <Reviews className="reviews-grey" showSummary={false} showMoreLink={false} />
+      <ServicesTrust {...content.trust} />
 
-      <Faqs />
+      <Reviews {...content.reviews} />
+
+      <Faqs {...content.faqs} />
     </>
   );
 }

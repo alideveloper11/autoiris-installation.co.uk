@@ -1,14 +1,20 @@
-import { serviceTagRows } from "@/data/services";
+import RichText from "@/components/ui/RichText";
 
-export default function EveryAngle() {
+export type EveryAngleProps = {
+  heading: string;
+  /** One array per desktop row. */
+  rows: string[][];
+};
+
+export default function EveryAngle({ heading, rows }: EveryAngleProps) {
   return (
     <section className="every-angle">
       <div className="container">
         <h2 className="reveal">
-          Every Angle <span className="highlight">Covered</span>
+          <RichText text={heading} />
         </h2>
         <div className="every-angle-tags reveal reveal-delay-1">
-          {serviceTagRows.map((row) => (
+          {rows.map((row) => (
             <ul key={row[0]} className="every-angle-row">
               {row.map((tag) => (
                 <li key={tag}>{tag}</li>

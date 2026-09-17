@@ -1,55 +1,45 @@
 import Image from "next/image";
-import Link from "next/link";
-import { Icon, PhoneSolidIcon, type IconName } from "@/components/icons";
-import { site } from "@/data/site";
+import { Icon, type IconName } from "@/components/icons";
+import CtaLinks, { type CtaLink } from "@/components/ui/CtaLinks";
+import RichText from "@/components/ui/RichText";
 
 export type HeroTrustItem = { icon: IconName; label: string };
 
-type CenteredHeroProps = {
+export type FullScreenHeroProps = {
   eyebrow: string;
-  /** First heading line, in white. */
+  /** "[words]" are highlighted and "\n" starts a new line, e.g. "Security Systems,\n[Supplied & Fitted]". */
   heading: string;
-  /** Second heading line, in orange. */
-  highlight: string;
-  /** Optional white words before the orange part of the second line. */
-  highlightPrefix?: string;
   text: string;
   image: string;
+  ctas: CtaLink[];
   /** Optional badges under the buttons. */
   trust?: HeroTrustItem[];
+  /** Content alignment; defaults to centred. */
+  align?: "center" | "left";
 };
 
-export default function CenteredHero({
+export default function FullScreenHero({
   eyebrow,
   heading,
-  highlight,
-  highlightPrefix,
   text,
   image,
+  ctas,
   trust,
-}: CenteredHeroProps) {
+  align = "center",
+}: FullScreenHeroProps) {
   return (
-    <section className="services-hero">
+    <section className={`services-hero${align === "left" ? " services-hero-left" : ""}`}>
       <Image className="bg-img" src={image} alt="" aria-hidden="true" fill sizes="100vw" priority />
       <div className="services-hero-overlay" />
       <div className="container">
         <div className="services-hero-content">
           <span className="eyebrow-plain reveal">{eyebrow}</span>
           <h1 className="reveal reveal-delay-1">
-            {heading}
-            <br />
-            {highlightPrefix && `${highlightPrefix} `}
-            <span className="highlight">{highlight}</span>
+            <RichText text={heading} />
           </h1>
           <p className="reveal reveal-delay-2">{text}</p>
           <div className="services-hero-ctas reveal reveal-delay-3">
-            <a href={site.phoneHref} className="btn btn-primary btn-lg">
-              <PhoneSolidIcon />
-              Call {site.phoneDisplay}
-            </a>
-            <Link href="/contact" className="btn btn-black btn-lg">
-              Request a Quote
-            </Link>
+            <CtaLinks ctas={ctas} />
           </div>
           {trust && (
             <ul className="services-hero-trust reveal reveal-delay-4">

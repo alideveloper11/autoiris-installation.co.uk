@@ -1,58 +1,41 @@
-import { ClockIcon, MailIcon, MapPinIcon, PhoneIcon } from "@/components/icons";
-import { site } from "@/data/site";
+import { Icon, type IconName } from "@/components/icons";
+import RichText from "@/components/ui/RichText";
 
-export default function ContactCards() {
+export type ContactCard = {
+  icon: IconName;
+  title: string;
+  /** Large link under the title, e.g. the phone number. */
+  link?: { label: string; href: string };
+  /** One entry per paragraph; "[words]" are bold and "\n" starts a new line. */
+  paragraphs: string[];
+};
+
+export type ContactCardsProps = { cards: ContactCard[] };
+
+export default function ContactCards({ cards }: ContactCardsProps) {
   return (
     <div className="contact-cards">
-      <div className="contact-card reveal">
-        <div className="icon">
-          <PhoneIcon />
+      {cards.map((card, index) => (
+        <div
+          key={card.title}
+          className={`contact-card reveal${index ? ` reveal-delay-${index}` : ""}`}
+        >
+          <div className="icon">
+            <Icon name={card.icon} />
+          </div>
+          <h3>{card.title}</h3>
+          {card.link && (
+            <a className="big-link" href={card.link.href}>
+              {card.link.label}
+            </a>
+          )}
+          {card.paragraphs.map((paragraph) => (
+            <p key={paragraph}>
+              <RichText text={paragraph} highlight="strong" />
+            </p>
+          ))}
         </div>
-        <h3>Call Us</h3>
-        <a className="big-link" href={site.phoneHref}>
-          {site.phoneDisplay}
-        </a>
-        <p>Call any time. We answer 24/7.</p>
-      </div>
-
-      <div className="contact-card reveal reveal-delay-1">
-        <div className="icon">
-          <MailIcon />
-        </div>
-        <h3>Email Us</h3>
-        <a className="big-link" href={`mailto:${site.email}`}>
-          {site.email}
-        </a>
-        <p>We reply fast to every enquiry.</p>
-      </div>
-
-      <div className="contact-card reveal reveal-delay-2">
-        <div className="icon">
-          <MapPinIcon />
-        </div>
-        <h3>Visit Us</h3>
-        <p>
-          {site.address.line1}
-          <br />
-          {site.address.line2}
-        </p>
-        <p>Based in Barking, we travel all over.</p>
-      </div>
-
-      <div className="contact-card reveal reveal-delay-3">
-        <div className="icon">
-          <ClockIcon />
-        </div>
-        <h3>Open 24/7</h3>
-        <p>
-          Monday to Saturday: <strong>24 Hours</strong>
-        </p>
-        <p>
-          Sunday: <strong>Closed</strong>
-          <br />
-          24hr emergency callouts available.
-        </p>
-      </div>
+      ))}
     </div>
   );
 }
