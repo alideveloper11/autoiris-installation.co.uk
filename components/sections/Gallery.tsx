@@ -11,9 +11,16 @@ type GalleryProps = {
   withHeading?: boolean;
   /** Show only the first N photos, followed by a link to the full gallery page. */
   limit?: number;
+  /** Extra class for page-specific variants, e.g. "gallery-spaced". */
+  className?: string;
 };
 
-export default function Gallery({ items = galleryItems, withHeading = true, limit }: GalleryProps) {
+export default function Gallery({
+  items = galleryItems,
+  withHeading = true,
+  limit,
+  className,
+}: GalleryProps) {
   const visible = limit ? items.slice(0, limit) : items;
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const active = activeIndex === null ? null : visible[activeIndex];
@@ -42,7 +49,7 @@ export default function Gallery({ items = galleryItems, withHeading = true, limi
   }, [active, close, step]);
 
   return (
-    <section className="section" id="gallery">
+    <section className={className ? `section ${className}` : "section"} id="gallery">
       <div className="container">
         {withHeading && (
           <div className="section-head center">

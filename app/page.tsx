@@ -6,6 +6,7 @@ import Coverage from "@/components/sections/Coverage";
 import Gallery from "@/components/sections/Gallery";
 import Reviews from "@/components/sections/Reviews";
 import CtaBanner from "@/components/sections/CtaBanner";
+import VisitUs from "@/components/sections/VisitUs";
 import { homeGalleryLimit } from "@/data/gallery";
 
 export default function HomePage() {
@@ -18,6 +19,7 @@ export default function HomePage() {
       <Coverage id="coverage" />
       <Gallery limit={homeGalleryLimit} />
       <Reviews />
+      <VisitUs />
       <CtaBanner />
     </>
   );

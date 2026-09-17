@@ -11,8 +11,8 @@ export default function About() {
           <div className="about-media reveal">
             <span className="frame" aria-hidden="true" />
             <Image
-              src="/images/engineer-branded-service.jpeg"
-              alt="Auto Iris engineer in branded uniform on site"
+              src="/images/warehouse-entrance-cctv-cameras.jpeg"
+              alt="Auto Iris installing CCTV cameras above a warehouse entrance"
               fill
               sizes="(min-width: 1024px) 45vw, 100vw"
             />
