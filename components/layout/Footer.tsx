@@ -29,7 +29,14 @@ export default function Footer() {
               </li>
               <li>
                 <MapPinIcon />
-                <span>{site.address.full}</span>
+                <a
+                  href={site.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${site.name} on Google Maps: ${site.address.full}`}
+                >
+                  {site.address.full}
+                </a>
               </li>
             </ul>
           </div>

@@ -113,7 +113,7 @@ export const servicesMeta = {
   socialTitle: "Security Installation Services in London & Essex",
   socialDescription:
     "CCTV installation and monitoring, burglar alarms, access control, door entry and system maintenance from one certified local team.",
-  image: "/images/services-hero.jpg",
+  image: "/images/services/services.webp",
 };
 
 const callCta: CtaLink = {
@@ -282,7 +282,7 @@ const faqs: FaqsProps = {
     {
       question: "Can you work around my schedule?",
       answer:
-        "Yes. We're open 24 hours Monday to Saturday, so surveys and installations can be booked at a time that suits you, including early mornings and evenings.",
+        "Our office hours are Monday to Friday, 9am to 5pm, and we'll book your survey or installation at a time that suits you. Emergency callouts are available 24/7.",
     },
     {
       question: "Do you offer emergency callouts?",

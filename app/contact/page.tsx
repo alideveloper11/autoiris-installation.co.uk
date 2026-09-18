@@ -56,6 +56,12 @@ const contactPageSchema = {
       latitude: site.geo.latitude,
       longitude: site.geo.longitude,
     },
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "17:00",
+    },
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",

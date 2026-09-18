@@ -31,8 +31,10 @@ export const urgencyOptions: string[] = [
   "It's an emergency",
 ];
 
-export const mapEmbedSrc =
-  "https://www.google.com/maps?q=Jute+Court,+58+Abbey+Road,+Barking,+IG11+7FT&output=embed";
+/** Searches for the business by name so the map shows the labelled Google listing pin. */
+export const mapEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent(
+  `${site.name}, ${site.address.locality} ${site.address.postalCode}`,
+)}&output=embed`;
 
 /* Contact page content. Headings: "[words]" are highlighted, "\n" starts a new line. */
 
@@ -59,7 +61,7 @@ const cards: ContactCardsProps = {
       icon: "phone",
       title: "Call Us",
       link: { label: site.phoneDisplay, href: site.phoneHref },
-      paragraphs: ["Speak to an installer any time. We answer 24/7."],
+      paragraphs: ["Mon to Fri, 9am to 5pm. Emergency callouts 24/7."],
     },
     {
       icon: "mail",
@@ -79,8 +81,8 @@ const cards: ContactCardsProps = {
       icon: "clock",
       title: "Opening Hours",
       paragraphs: [
-        "Monday to Saturday: [24 Hours]",
-        "Sunday: [Closed]\n24hr emergency callouts available.",
+        "Monday to Friday: [9am - 5pm]",
+        "Saturday & Sunday: [Closed]\n24hr emergency callouts available.",
       ],
     },
   ],
@@ -96,7 +98,7 @@ const form: ContactFormProps = {
     variant: "dark",
     size: "md",
   },
-  note: "Prefer to talk? Call us 24 hours a day and speak to a real person, not a voicemail.",
+  note: "Prefer to talk? Call us Mon to Fri, 9am to 5pm, or any time for an emergency, and speak to a real person.",
 };
 
 const info: ContactInfoProps = {

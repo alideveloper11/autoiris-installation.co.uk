@@ -59,7 +59,7 @@ export default function Header() {
             <a className="header-phone" href={site.phoneHref}>
               <PhoneIcon />
               <span>
-                <small>Call us 24/7</small>
+                <small>Mon-Fri 9am-5pm</small>
                 {site.phoneDisplay}
               </span>
             </a>
