@@ -35,7 +35,18 @@ const whatsappCta: CtaLink = {
   icon: "whatsapp",
 };
 
-const heroImage = "/images/services-detail-hero.jpg";
+/** Hero photo per service slug; file names differ slightly from the slugs. */
+const heroImages: Record<string, string> = {
+  "cctv-installation": "/images/services/cctv-installation.webp",
+  "cctv-monitoring": "/images/services/cctv-monitoring.webp",
+  "intruder-alarms": "/images/services/intruder-alarms.webp",
+  "alarm-maintenance": "/images/services/alarm-maintainence.webp",
+  "access-control": "/images/services/access-control.webp",
+  "door-entry-intercom": "/images/services/door-entry.webp",
+  "satellite-dish": "/images/services/satellite.webp",
+  "aerial-installation": "/images/services/aerial.webp",
+  maintenance: "/images/services/maintainence.webp",
+};
 
 const heroTrust: HeroTrustItem[] = [
   { icon: "shieldCheck", label: "24/7 Coverage" },
@@ -682,10 +693,7 @@ const serviceCopy: Record<string, ServiceCopy> = {
     gallery: {
       heading: "Recent [Access Control] Work",
       text: "Access control, entry devices and secure entrance systems we have installed. Tap any photo to enlarge.",
-      photos: [
-        "car-park-entrance-security-device.jpeg",
-        "hikvision-keypad-video-intercom.jpeg",
-      ],
+      photos: ["car-park-entrance-security-device.jpeg", "hikvision-keypad-video-intercom.jpeg"],
     },
     features: {
       eyebrow: "Why Choose Access Control",
@@ -1334,10 +1342,13 @@ export function getServiceDetailContent(service: ServiceListItem) {
   const copy = serviceCopy[service.slug];
   // Fails the build if a service is added to data/services.ts without its page content.
   if (!copy) throw new Error(`Missing service page content for "${service.slug}"`);
+  if (!heroImages[service.slug]) {
+    throw new Error(`Missing hero image for "${service.slug}" in data/serviceDetail.ts`);
+  }
 
   const hero: FullScreenHeroProps = {
     ...copy.hero,
-    image: heroImage,
+    image: heroImages[service.slug],
     ctas: [callCta, quoteCta],
     trust: heroTrust,
   };

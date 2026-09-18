@@ -13,6 +13,7 @@ export default function StructuredData() {
     image: `${site.url}${site.heroImage}`,
     logo: `${site.url}${site.logo}`,
     url: `${site.url}/`,
+    hasMap: site.mapUrl,
     telephone: site.phoneIntl,
     email: site.email,
     priceRange: "££",
@@ -34,16 +35,9 @@ export default function StructuredData() {
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ],
-        opens: "00:00",
-        closes: "23:59",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "09:00",
+        closes: "17:00",
       },
     ],
     areaServed: site.areaServed,

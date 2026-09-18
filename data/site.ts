@@ -20,7 +20,9 @@ export const site = {
     line1: "Flat 508 Jute Court,",
     line2: "58 Abbey Rd, Barking, IG11 7FT",
   },
-  geo: { latitude: 51.5359, longitude: 0.0813 },
+  /** Pin and link from the Google Business Profile listing. */
+  geo: { latitude: 51.5315493, longitude: 0.0765876 },
+  mapUrl: "https://maps.app.goo.gl/jYqDZLLmfJs262HBA",
   areaServed: [
     "London",
     "Essex",
@@ -76,12 +78,12 @@ export const footerQuickLinks: NavLink[] = [
 ];
 
 export const openingHours: { day: string; hours: string; open: boolean }[] = [
-  { day: "Monday", hours: "24 Hours", open: true },
-  { day: "Tuesday", hours: "24 Hours", open: true },
-  { day: "Wednesday", hours: "24 Hours", open: true },
-  { day: "Thursday", hours: "24 Hours", open: true },
-  { day: "Friday", hours: "24 Hours", open: true },
-  { day: "Saturday", hours: "24 Hours", open: true },
+  { day: "Monday", hours: "9am - 5pm", open: true },
+  { day: "Tuesday", hours: "9am - 5pm", open: true },
+  { day: "Wednesday", hours: "9am - 5pm", open: true },
+  { day: "Thursday", hours: "9am - 5pm", open: true },
+  { day: "Friday", hours: "9am - 5pm", open: true },
+  { day: "Saturday", hours: "Closed", open: false },
   { day: "Sunday", hours: "Closed", open: false },
 ];
 
